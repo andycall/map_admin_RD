@@ -1,1 +1,3 @@
-var a = 1;
+define([ "jquery", "bootstrap" ], function() {
+    console.log("siderbar loaded");
+});

@@ -2,10 +2,9 @@
 
 
 @section("sidebar")
-    @include("widget.siderbar.siderbar")
+    @include("widget.breadcrumb.breadcrumb")
+    @include("widget.siderbar.siderbar", array("active" => "shop_info"))
 @stop
-
-
 
 @section("content")
     @include("widget.shop_info.shop_info")
@@ -19,6 +18,5 @@
 @stop
 
 @section("script")
-    {{HTML::script("/js/lib/jquery.min.js")}}
-    {{HTML::script("/js/lib/bootstrap.min.js")}}
+    {{HTML::script("/js/lib/require.min.js", ["data-main" => url("/js/template/shop_info/shop_info.js")])}}
 @stop
