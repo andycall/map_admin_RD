@@ -2,6 +2,7 @@
 
 
 @section("sidebar")
+    @include("widget.breadcrumb.breadcrumb")
     @include("widget.siderbar.siderbar")
 @stop
 

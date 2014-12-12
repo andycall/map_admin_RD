@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container-fluid">
+
        <div class="row">
          <div class="col-xs-12 col-md-2 siderbar">
             @yield("sidebar")
