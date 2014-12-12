@@ -17,6 +17,7 @@
     {{HTML::style("/css/template/main/main.css")}}
 @stop
 
+
 @section("script")
     {{HTML::script("/js/lib/require.min.js", ["data-main" => url("/js/template/main/main.js")])}}
 @stop

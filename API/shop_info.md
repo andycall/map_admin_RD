@@ -17,7 +17,7 @@
 				type : "category",
 				data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
 			}
-		],
+		],*
 		yAxis : [
 			{
 				type : "value"
@@ -32,37 +32,6 @@
 			}
 		]
 	}
-
-
-前端参考定义一个模块
-
-	@section("script")
-		@parent
-		<script>
-			define("echart", function(){
-				return  {
-	                tooltip: {
-	                    show: true
-	                },
-	                legend: {
-	                    {{ $legend }}
-	                },
-	                xAxis : {{$xAxis}}, // 具体是啥样自己写哈
-	                yAxis : {{$yAxis}},
-	                series :{{$series}}
-	            };
-			})
-		</script>
-
-		// 在其他页面
-		<script>
-			define(['echart'], function(option){
-				var myChart = ec.init(document.getElementById('main')); 
-				myChart.setOption(option); 
-			});
-		</script>
-	@stop
-
 
 ### 商家基本信息添加页面
 
@@ -225,6 +194,42 @@ output : {
 		]
 	}
 
+
+
+------------------- Blade END -------------------------------
+
+
+
+------------------- AJAX ZONE -------------------------------
+
+	//首页图表
+	type : "post"
+    url  : "",
+    input : {
+
+
+    }
+    output:{
+        success : "true"                                // 成功返回true, 失败返回false
+        state   : 200                                   // HTTP 状态码
+        errMsg  : ""                                    // 如果出现错误, 错误信息就出现在这, 如果没有, 那内容为空.
+        no      : 0                                     // 错误号 ,错误号就出现在这, 如果没有, 那内容为空.
+        data    : {
+        	month : ["" "" "" "" "" ""]					// 用于比较的六个月份
+			goods : [   								// 按菜系类别返回多组数据
+                {
+					style : ""							// 菜系
+					[
+						{
+							goods_id : ""       		// 商品id
+							goods_name : ""    			// 商品名称
+							goods_sails : ["" "" "" "" "" ""] 	    // 前六个月的销量商品销量
+						}
+					]
+                }
+            ]
+        }
+    }
 
 
 

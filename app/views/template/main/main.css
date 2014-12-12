@@ -1,7 +1,9 @@
 .col-md-2{
 	border-right: 1px solid #000;
 }
-
+.col-md-10{
+	padding: 20px;
+}
 
 p{
 	font-size: 18px;
