@@ -8,7 +8,11 @@ Route::get('users', function()
 });
 
 # 商家管理主页面
-Route::get('/', function(){});
+Route::get('/', function(){
+
+	return View::make("template.shop_info.shop_info");
+
+});
 
 # 登录与注册
 Route::get('geohashSet', 'ShopController@geoHashSet');
