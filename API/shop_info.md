@@ -8,61 +8,43 @@
 	type : "blade"
 	output : {
 		shop_name : "" // 商家名称
-		shop_logo : "" // 商家logo
+		shop_logo : "" // 商家logo地址
 		shop_type : "" // 商家类型
 		shop_address : "" // 商家地址
-		legend : ['销量'] // Echart legend
-		xAxis : [
-			{
-				type : "category",
-				data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-			}
-		],
-		yAxis : [
-			{
-				type : "value"
-			}
-		]
-
-		series : [
-			{
-				"name":"销量",
-	            "type":"bar",
-	            "data":[5, 20, 40, 10, 10, 20]
-			}
-		]
 	}
 
 
-前端参考定义一个模块
+	//首页图表
+	type : "get"
+    url  : "",
+    input : {
 
-	@section("script")
-		@parent
-		<script>
-			define("echart", function(){
-				return  {
-	                tooltip: {
-	                    show: true
-	                },
-	                legend: {
-	                    {{ $legend }}
-	                },
-	                xAxis : {{$xAxis}}, // 具体是啥样自己写哈
-	                yAxis : {{$yAxis}},
-	                series :{{$series}}
-	            };
-			})
-		</script>
 
-		// 在其他页面
-		<script>
-			define(['echart'], function(option){
-				var myChart = ec.init(document.getElementById('main')); 
-				myChart.setOption(option); 
-			});
-		</script>
-	@stop
+    }
+    output:{
+        success : "true"                                // 成功返回true, 失败返回false
+        state   : 200                                   // HTTP 状态码
+        errMsg  : ""                                    // 如果出现错误, 错误信息就出现在这, 如果没有, 那内容为空.
+        no      : 0                                     // 错误号 ,错误号就出现在这, 如果没有, 那内容为空.
+        data    : {
+        	month : ["" "" "" "" "" ""]					// 用于比较的六个月份
+			goods : [   								// 按菜系类别返回多组数据
+				{
+					goods_id : ""       		// 商品id
+					goods_name : ""    			// 商品名称
+					goods_sails : ["" "" "" "" "" ""] 	    // 前六个月的销量商品销量
+				}
+			]
+        }
+    }
 
+### 添加公告
+
+	type : "blade"
+	output : {
+		"announcement" => "买买买"				//餐厅公告
+		"min_price" => "58"						//起送价
+	}
 
 ### 商家基本信息添加页面
 
@@ -111,7 +93,6 @@
 	type : "form"
 	input : {
 		classify_name : "10元管饱" // 类别名称
-		classify_name_abbr : "点餐就有红包拿！没办…" // 类别名称简写
 	}
 
 ### 添加公告
@@ -148,10 +129,7 @@ url  : ""
 		category : [
 			{
 				classify_name : "10元管饱" // 类别名称
-				classify_name_abbr : "点餐就有红包拿！没办…" // 类别名称简写
 				classify_id : "" // 类别id
-				classify_count : "" // 类别中有多少商品
-				classify_icon : "" // 类别图标地址
 			}
 		]
 	}
@@ -159,9 +137,9 @@ url  : ""
 	input : {
 		classify_sec : [
 			{
-				classify_id   : ['1','2'] // 支持的类别id
 				good_name :    "" // 商品名称
 				good_price :   "" // 商品价格
+				good_style_id :   "" // 商品类别
 			}
 		]
 	}
@@ -224,9 +202,6 @@ output : {
 			}
 		]
 	}
-
-
-
 
 
 

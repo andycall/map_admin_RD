@@ -1,6 +1,5 @@
 @extends("layout.shop")
 
-
 @section("sidebar")
     @include("widget.breadcrumb.breadcrumb")
     @include("widget.siderbar.siderbar", array("active" => "shop_info"))

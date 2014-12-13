@@ -4,7 +4,8 @@ require.config({
 		"shop_info" : "../template/shop_info",
 		"map" : "../widget/map",
 		"siderbar" : "../widget/siderbar",
-		"main" : "../widget/main"
+		"main" : "../widget/main",
+		//"lib" : "../lib"
 	},
 	shim: {
 		"bootstrap": {
@@ -18,7 +19,8 @@ require.config({
 // 加载项目所需的所有依赖项
 define([
 	"siderbar/siderbar",
-	"main/main"
+	"main/main",
+	//"lib/echarts"
 ], function($){
 	console.log("init");
 });
