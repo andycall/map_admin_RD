@@ -36,7 +36,6 @@ Route::get("announce", function()
 	$data = [
 		"main"   => url("/"),
 		"announce" => url("/announce"),
-        "modifyAnnounce" => url("/modifyAnnounce"),
 		"category" => url("/category"),
 		"deliver"  => url("/deliver"),
 		"good"     => url("/good"),
@@ -80,6 +79,9 @@ Route::get("good", function()
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
 		"success"  => url("/success"),
+        "data" => [
+            "message" => Session::get('goodMsg'),
+        ],
 		"widge_category" => [
 			[
 				"classify_name" => "buy1",
@@ -255,11 +257,11 @@ Route::post("/goodsChart", function(){
 });
 
 //修改公告
-Route::post("/modifyAnnounce", function(){
+Route::post("/announce", function(){
     return Redirect::to('/announce')->with('announceMsg', '修改成功!');
 });
 
-//添加公告
-Route::post("/addAnnounce", function(){
-    return Redirect::to('/announce')->with('announceMsg', '修改成功!');
+//添加商品
+Route::post("/good", function(){
+    return Redirect::to('/good')->with('goodMsg', '添加成功!');
 });
