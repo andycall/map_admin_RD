@@ -46,18 +46,18 @@
                 <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_statement"]}}">
             </div>
         </div>
-        <div class="form-group">
-            <label for="shop_open" class="col-sm-2 control-label">开门时间：</label>
-            <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_open"]}}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="shop_close" class="col-sm-2 control-label">关门时间：</label>
-            <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_close"]}}">
-            </div>
-        </div>
+        {{--<div class="form-group">--}}
+            {{--<label for="shop_open" class="col-sm-2 control-label">开门时间：</label>--}}
+            {{--<div class="col-sm-2">--}}
+                {{--<input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_open"]}}">--}}
+            {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="form-group">--}}
+            {{--<label for="shop_close" class="col-sm-2 control-label">关门时间：</label>--}}
+            {{--<div class="col-sm-2">--}}
+                {{--<input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_close"]}}">--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">修改</button>
