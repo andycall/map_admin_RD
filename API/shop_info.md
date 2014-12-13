@@ -43,6 +43,14 @@
         }
     }
 
+### 添加公告
+
+	type : "blade"
+	output : {
+		"announcement" => "买买买"				//餐厅公告
+		"min_price" => "58"						//起送价
+	}
+
 ### 商家基本信息添加页面
 
 	type : "form"

@@ -41,7 +41,11 @@ Route::get("announce", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+		"data" => [
+			"announcement" => "买买买",
+			"min_price" => "58"
+		]
 	];
 
 	return View::make("template.announce.announce")->with($data);
