@@ -36,6 +36,7 @@ Route::get("announce", function()
 	$data = [
 		"main"   => url("/"),
 		"announce" => url("/announce"),
+        "modifyAnnounce" => url("/modifyAnnounce"),
 		"category" => url("/category"),
 		"deliver"  => url("/deliver"),
 		"good"     => url("/good"),
@@ -43,6 +44,7 @@ Route::get("announce", function()
 		"shop_info" => url("/shop_info"),
 		"success"  => url("/success"),
 		"data" => [
+            "message" => Session::get('announceMsg'),
 			"announcement" => "买买买",
 			"min_price" => "58"
 		]
@@ -252,30 +254,12 @@ Route::post("/goodsChart", function(){
 	return Response::json($data);
 });
 
-//新公告
-Route::post("/announcement", function(){
-	$data = [
-
-		"success" => "true",
-		"state"   => 200,
-		"errMsg"  => "",
-		"no"  => "",
-
-	];
-
-	return Response::json($data);
+//修改公告
+Route::post("/modifyAnnounce", function(){
+    return Redirect::to('/announce')->with('announceMsg', '修改成功!');
 });
 
-//新起送价格
-Route::post("/new_price", function(){
-	$data = [
-
-		"success" => "true",
-		"state"   => 200,
-		"errMsg"  => "",
-		"no"  => "",
-
-	];
-
-	return Response::json($data);
+//添加公告
+Route::post("/addAnnounce", function(){
+    return Redirect::to('/announce')->with('announceMsg', '修改成功!');
 });
