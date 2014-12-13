@@ -1,8 +1,8 @@
-<div>
-
+<div class="success">
+    <div class="header"><h2>成功订单 - 共{{$widge_success['deal_count']}}张</h2></div>
     <div class="inner">
-@foreach($form['deal'] as $value)
-        <div class="order_form"  data-shop_id="{{$value['shop_id']}}" data-deal_id="{{$value['deal_id']}}">
+@foreach($widge_success['deal'] as $value)
+        <div class="order_form">
             <div class="order_header">
                 <div class="order_wrapper">
 @if($value['deal_statue'] == 0)
@@ -13,6 +13,7 @@
                         <span></span>
                         付款金额会在3-7个工作日内退回您支付时的账户。
                     </div>
+@else
                     <div class="order_title finish">交易已完成</div>
 @endif
                 </div>
