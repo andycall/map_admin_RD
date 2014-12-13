@@ -285,3 +285,7 @@ Route::post("category", function(){
 Route::post("shop_info", function(){
 	return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');
 });
+
+Route::post("map", function(){
+    return Redirect::to('/map')->with('mapMsg', '成功!');
+});
