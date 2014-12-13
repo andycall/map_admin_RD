@@ -7,8 +7,9 @@
     <p class="bg-success message">{{{$data['message']}}}</p>
   @endif
 
-  <textarea class="announcement form-control" rows="5">{{{$data["announcement"]}}}</textarea>
   <form action="{{{$announce}}}" method="POST">
+  <textarea class="announcement form-control" rows="5" name="announcement">{{{$data["announcement"]}}}</textarea>
+
     {{--<div class="form-group">--}}
       {{--<label for="min_price" class="col-sm-2 control-label">起送价格:</label>--}}
       {{--<div class="col-sm-2">--}}
