@@ -2,7 +2,7 @@
 
   <h3>添加商品</h3>
 
-  <form action="{{{}}}" method="POST">
+  <form action="" method="POST">
 
       <div class="form-group">
         <label for="good_name" class="col-sm-2 control-label">商品名称：</label>
