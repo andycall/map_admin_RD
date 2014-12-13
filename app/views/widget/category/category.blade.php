@@ -11,7 +11,7 @@
           <div class="form-group">
             <label for="good_name" class="col-sm-2 control-label">分类名称：</label>
             <div class="col-sm-2">
-              <input type="text" class="min_price_input form-control" value="">
+              <input type="text" class="min_price_input form-control" value="" name="classify_name">
             </div>
           </div>
 
