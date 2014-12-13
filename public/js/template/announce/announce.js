@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: "/js/lib/",
+    baseUrl: "js/lib/",
     paths: {
         shop_info: "../template/shop_info",
         map: "../widget/map",

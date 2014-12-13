@@ -61,6 +61,33 @@ class ShopAdminController extends BaseController {
 	}
 
 	/**
+	 * good那个接口
+	 * @return [type] [description]
+	 */
+	public function getGood(){
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('/shop_info'),
+			'success' => url('/success'),
+			'data' => array('message' => Session::get('goodMsg')),
+			'widge_category' => array()
+		);
+		$classify = Shop::find(Auth::user()->shop_id)->groups;
+		foreach($classify as $group){
+			array_push($data['widge_category'], array(
+				'classify_name' => $group->name,
+				'classify_id' => $group->id
+			));
+		}
+		return View::make("template.good.good")->with($data);
+	}
+
+	/**
 	 * 添加一个菜单
 	 * 商铺
 	 */
@@ -108,6 +135,10 @@ class ShopAdminController extends BaseController {
 				'msg'    => 'add failed'
 			));
 		}
+
+
+		    return Redirect::to('/good')->with('goodMsg', '添加成功!');
+
 	}
 
 	/**
@@ -261,6 +292,8 @@ class ShopAdminController extends BaseController {
 		return $category;
 	}
 
+
+
 	/**
 	 * category的get请求
 	 */
@@ -277,6 +310,36 @@ class ShopAdminController extends BaseController {
 			'data' => array('message' => Session::get('catMsg'))
 		);
 		return View::make("template.category.category")->with($data);
+	}
+
+	/**
+	 * 获取店铺基本信息
+	 */
+	public function getShopInfo(){
+		$shop = Shop::find(Auth::user()->shop_id);
+		$info = array(
+			'shop_name' => $shop->name,
+			'shop_logo' => $shop->pic,
+			'shop_type' => $shop->type,
+			'shop_address' => $shop->address,
+			'price_begin' => $shop->deliver_price,
+			'deliver_begin' => $shop->begin_time,
+			'shop_time' => $shop->operation_time,
+			'shop_statement' => $shop->intro
+		);
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('shop_info'),
+			'success' => url('/success'),
+			'widge_shop_info' => $info,
+			'data' => array('message' => Session::get('infoMsg'))
+		);
+		return View::make("template.shop_info.shop_info")->with($data);
 	}
 
 	/**
@@ -443,6 +506,47 @@ class ShopAdminController extends BaseController {
 		$shop = Shop::find($shop_id);
 		if( Shop::find($shop_id)->update($record) ){
 			return Redirect::to('/announce')->with('announceMsg', '修改成功!')->with('announcement', $record['announcement']);
+		}else{
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'modify failed'
+			));
+		}
+    }
+
+    /**
+     * 修改店铺基本信息
+     */
+    public function modifyInfo(){
+		$record = array(
+			'name' => Input::get('shop_name'),
+			//'shop_logo' => $shop->pic,
+			'type' => Input::get('shop_type'),
+			'address' => Input::get('shop_address'),
+			'deliver_price' => Input::get('price_begin'),
+			'begin_time' => Input::get('deliver_begin'),
+			'operation_time' => Input::get('shop_time'),
+			'intro' => Input::get('shop_statement')
+		);
+		$rules = array(
+			'name' => 'required | max:50',
+			'type' => 'required | max:45', 
+			'address' => 'required | max:255',
+			'deliver_price' => 'required | numeric',
+			'begin_time' => 'required | max:10',
+			'operation_time' => 'required | max:100',
+			'intro' => 'required | max:255'
+		);
+   		$v = Validator::make($record, $rules);
+		if( $v->fails() ){
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
+		}
+
+		if( Shop::find(Auth::user()->shop_id)->update($record) ){
+			return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');		
 		}else{
 			return json_encode(array(
 				'status' => '400',

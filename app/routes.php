@@ -1,6 +1,6 @@
 <?php
 
-
+/*
 # 模板测试
 Route::get("shop_info", function()
 {
@@ -24,12 +24,16 @@ Route::get("shop_info", function()
 			"shop_statement" => "大盘鸡，就是好吃", // 商家简介
 			"shop_open" => "12：00", // 开门时间
 			"shop_close" => "8：00" // 关门时间
+		],
+		"data" => [
+			"message" => Session::get('infoMsg')
 		]
 	];
 
 	return View::make("template.shop_info.shop_info")->with($data);
 });
-
+*/
+/*
 Route::get("announce", function()
 {
 	$data = [
@@ -50,7 +54,7 @@ Route::get("announce", function()
 
 	return View::make("template.announce.announce")->with($data);
 });
-
+*/
 /*
 Route::get("category", function()
 {
@@ -72,7 +76,7 @@ Route::get("category", function()
 });
 */
 
-
+/*
 Route::get("good", function()
 {
 	$data = [
@@ -112,6 +116,7 @@ Route::get("good", function()
 	];
 	return View::make("template.good.good")->with($data);
 });
+*/
 
 Route::get("map", function()
 {
@@ -187,8 +192,7 @@ Route::get('/', function(){
 
 
 
-# 测试
-Route::get('test/{shop_id}', 'HomeController@getChart');
+
 
 //main 测试
 /*
@@ -251,17 +255,23 @@ Route::post("/announce", function(){
     return Redirect::to('/announce')->with('announceMsg', '修改成功!');
 });
 */
-
+/*
 //添加商品
 Route::post("/good", function(){
     return Redirect::to('/good')->with('goodMsg', '添加成功!');
 });
-
+*/
 
 /*
 //添加分类
 Route::post("category", function(){
     return Redirect::to('/category')->with('catMsg', '添加分类成功!');
+});
+*/
+/*
+//添加商店基本信息
+Route::post("shop_info", function(){
+	return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');
 });
 */
 
@@ -282,8 +292,12 @@ Route::get('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminContr
 Route::post('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyAnnounce')); // 修改公告
 Route::get('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGroup'));
 Route::post('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addGroup'));		// 添加分组/分类
-Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));          // 添加菜单
-Route::post('addshop', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addShop'));			// 添加店铺
+Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopInfo'));	// 获取店铺基本信息
+Route::post('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyInfo'));	// 添加/修改店铺的基本信息
+Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGood'));		// 获取商品分类
+Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品
+
+Route::post('addshop', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addShop'));	// 添加店铺
 Route::post('delmenu', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@delMenu'));          // 删除菜单
 Route::post('modifymenu', array('before' => 'loginCheck', 'uses'=>'ShopAdminController@modifyMenu'));	// 修改菜单
 Route::post('modifyorder', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyOrder'));	// 修改订单状态
@@ -299,3 +313,6 @@ Route::filter('loginCheck', function()
         return Redirect::to('login');
     }
 });
+
+# 测试
+Route::get('test/{shop_id}', 'HomeController@getChart');
