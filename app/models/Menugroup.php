@@ -10,7 +10,7 @@ class Menugroup extends Eloquent{
 
 	protected $table = 'menu_group';
 
-	protected $fillable = array('shop_id', 'activity_id', 'name', 'icon', 'name_abbr');
+	protected $fillable = array('shop_id', 'name', 'icon');
 
 	public function menus(){
         return $this->hasMany('Menu', 'group_id', 'id');

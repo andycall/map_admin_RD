@@ -51,7 +51,7 @@ Route::get("announce", function()
 	return View::make("template.announce.announce")->with($data);
 });
 
-
+/*
 Route::get("category", function()
 {
 	$data = [
@@ -165,7 +165,7 @@ Route::get("success", function()
 # 商家管理主页面
 Route::get('/', function(){
 	$data = [
-		"main"   => url("/123"),
+		"main"   => url("/"),
 		"announce" => url("/announce"),
 		"category" => url("/category"),
 		"deliver"  => url("/deliver"),
@@ -245,6 +245,7 @@ Route::post("/goodsChart", function(){
 });
 */
 
+/*
 //修改公告
 Route::post("/announce", function(){
     return Redirect::to('/announce')->with('announceMsg', '修改成功!');

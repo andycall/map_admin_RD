@@ -18,52 +18,15 @@
 class ShopAdminController extends BaseController {
 
 	/**
-	 * 添加公告
-	 */
-	public function addAnnounce($shop_id){
-		$record = array(
-			'content' => Input::get('announce_content'),	// 餐厅公告内容 
-			//'start_price' => Input::get('start_price'),		// 起送价描述
-			//'activities' => Input::get('activities')
-		);
-		$rules = array(
-			'content' => 'required | max:255',
-			//'start_price' => 'max:50'
-		);
-		$v = Validator::make($record, $rules);
-		if( $v->fails() ){
-			$message         = $v->messages();	
-			$error['msg']    = $message->toArray();
-			$error['status'] = '400';
-			return $error;		
-		}
-
-		$shop = Shop::find($shop_id);
-		if( $shop->update(array('announcement' => $record['content'])) ){
-			return json_encode(array(
-				'status' => '200',
-				'msg'    => 'add finished'
-			));		
-		}else{
-			return json_encode(array(
-				'status' => '400',
-				'msg'    => 'add failed'
-			));
-		}
-	}
-
-	/**
 	 * 添加分组
 	 * 请求类型：POST
 	 */
-	public function addGroup(){
-		$user   = Auth::user();
-		
+	public function addGroup(){		
 		$record = array(
-			//'shop_id'     => Input::get('shop_id'),
+			'shop_id'     => Auth::user()->shop_id,
 			//'activity_id' => Input::get('activity_id'),
 			'name'        => Input::get('classify_name'),
-			//'icon'        => Input::file('icon'),
+			'icon'        => ''//Input::file('icon'),
 			//'name_abbr'   => Input::get('name_abbr')
 		);
 		$rules = array(
@@ -260,7 +223,6 @@ class ShopAdminController extends BaseController {
 
 	/**
 	 * Announce的get请求
-	 * @return [type] [description]
 	 */
 	public function getAnnounce(){
 		$data = array(
@@ -274,30 +236,11 @@ class ShopAdminController extends BaseController {
 			'success' => url('success'),
 			'data' => array(
 				'message' => Session::get('announceMsg'),
-				'announcement' => '',
-				'min_price' => ''
+				'announcement' => Session::get('announcement'),
+				'min_price' => '58'
 			)
 		);
-		return View::make("template.category.category")->with($data);
-
-
-			$data = [
-		"main"   => url("/"),
-		"announce" => url("/announce"),
-		"category" => url("/category"),
-		"deliver"  => url("/deliver"),
-		"good"     => url("/good"),
-		"map"      => url("/map"),
-		"shop_info" => url("/shop_info"),
-		"success"  => url("/success"),
-		"data" => [
-            "message" => Session::get('announceMsg'),
-			"announcement" => "买买买",
-			"min_price" => "58"
-		]
-	];
-
-	return View::make("template.announce.announce")->with($data);
+		return View::make('template.announce.announce')->with($data);
 	}
 
 	/**
@@ -487,7 +430,7 @@ class ShopAdminController extends BaseController {
     public function modifyAnnounce(){
     	$shop_id = Auth::user()->shop_id;
 
-    	$record = array( 'announcement' => Input::get('announce_content') );
+    	$record = array( 'announcement' => Input::get('announcement') );
     	$rules = array( 'announcement' => 'required | max:255');
    		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
@@ -499,7 +442,7 @@ class ShopAdminController extends BaseController {
 
 		$shop = Shop::find($shop_id);
 		if( Shop::find($shop_id)->update($record) ){
-			return Redirect::to('/announce')->with('announceMsg', '修改成功!');
+			return Redirect::to('/announce')->with('announceMsg', '修改成功!')->with('announcement', $record['announcement']);
 		}else{
 			return json_encode(array(
 				'status' => '400',
