@@ -1,16 +1,23 @@
 <div id="announcement">
 
   <h3>餐厅公告</h3>
-  <div class="announcement">
-    <p>{{$data["announcement"]}}</p>
-  </div>
-  <textarea class="announcement"></textarea>
-  <h4 class="min_price">起送价格；
-    <span>{{$data["min_price"]}}</span>
-    <input type="text" class="min_price_input"/>
+
+  @if($data['message'])
+    <p class="bg-success message">{{{$data['message']}}}</p>
+  @endif
+
+  <textarea class="announcement form-control" rows="5">{{{$data["announcement"]}}}</textarea>
+  <form action="{{{$addAnnounce}}}" method="POST">
+    <div class="form-group">
+      <label for="min_price" class="col-sm-2 control-label">起送价格:</label>
+      <div class="col-sm-2">
+        <input type="text" class="min_price_input form-control" value="{{$data["min_price"]}}"/>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">修改</button>
+  </form>
   </h4>
-
-
 
 </div>
 
