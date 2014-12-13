@@ -11,6 +11,7 @@
  * getShopLogo()			获取LOGO
  * logoUpload()				LOGO上传
  * menuImageUpload()		菜单图片上传
+ * modifyAnnounce()			修改公告
  * modifyMenu()				修改菜单
  * modifyOrder()			修改订单状态:0用户已提交未付款,2用户已付款未配送,3正在配送,4配送完成，店家确认收获
  */
@@ -59,19 +60,22 @@ class ShopAdminController extends BaseController {
 		$user   = Auth::user();
 		
 		$record = array(
-			'shop_id'     => Input::get('shop_id'),
+			//'shop_id'     => Input::get('shop_id'),
 			//'activity_id' => Input::get('activity_id'),
-			'name'        => Input::get('name'),
+			'name'        => Input::get('classify_name'),
 			//'icon'        => Input::file('icon'),
-			'name_abbr'   => Input::get('name_abbr')
+			//'name_abbr'   => Input::get('name_abbr')
 		);
 		$rules = array(
-			'shop_id'     => 'required | integer | exists:shop,id',
+			//'shop_id'     => 'required | integer | exists:shop,id',
 			//'activity_id' => 'required | integer | exists:activity,aid',
 			'name'        => 'required | max:50',
 			//'icon'        => 'image | max:1024',
-			'name_abbr'   => 'max:100'
+			//'name_abbr'   => 'max:100'
 		);
+		var_dump($record);
+
+		
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
 			$message         = $v->messages();	
@@ -82,10 +86,9 @@ class ShopAdminController extends BaseController {
 
 		$group = new Menugroup($record);
 		if( $group->save() ){
-			return json_encode(array(
-				'status' => '200',
-				'msg'    => 'add finished'
-			));
+			return Redirect::to('category')->with('catMsg', '添加分类成功!');
+			
+			//return json_encode(array(	'status' => '200', 'msg'    => 'add finished'));
 		}else{
 			return json_encode(array(
 				'status' => '400',
@@ -256,6 +259,48 @@ class ShopAdminController extends BaseController {
 	}
 
 	/**
+	 * Announce的get请求
+	 * @return [type] [description]
+	 */
+	public function getAnnounce(){
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('/shop_info'),
+			'success' => url('success'),
+			'data' => array(
+				'message' => Session::get('announceMsg'),
+				'announcement' => '',
+				'min_price' => ''
+			)
+		);
+		return View::make("template.category.category")->with($data);
+
+
+			$data = [
+		"main"   => url("/"),
+		"announce" => url("/announce"),
+		"category" => url("/category"),
+		"deliver"  => url("/deliver"),
+		"good"     => url("/good"),
+		"map"      => url("/map"),
+		"shop_info" => url("/shop_info"),
+		"success"  => url("/success"),
+		"data" => [
+            "message" => Session::get('announceMsg'),
+			"announcement" => "买买买",
+			"min_price" => "58"
+		]
+	];
+
+	return View::make("template.announce.announce")->with($data);
+	}
+
+	/**
 	 * 获取分类列表
 	 */
 	public function getCategory($shop_id){
@@ -271,6 +316,24 @@ class ShopAdminController extends BaseController {
 			));
 		}
 		return $category;
+	}
+
+	/**
+	 * category的get请求
+	 */
+	public function getGroup(){
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('/shop_info'),
+			'success' => url('success'),
+			'data' => array('message' => Session::get('catMsg'))
+		);
+		return View::make("template.category.category")->with($data);
 	}
 
 	/**
@@ -418,18 +481,39 @@ class ShopAdminController extends BaseController {
         }
     }
 
+    /**
+     * 修改公告
+     */
+    public function modifyAnnounce(){
+    	$shop_id = Auth::user()->shop_id;
+
+    	$record = array( 'announcement' => Input::get('announce_content') );
+    	$rules = array( 'announcement' => 'required | max:255');
+   		$v = Validator::make($record, $rules);
+		if( $v->fails() ){
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
+		}
+
+		$shop = Shop::find($shop_id);
+		if( Shop::find($shop_id)->update($record) ){
+			return Redirect::to('/announce')->with('announceMsg', '修改成功!');
+		}else{
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'modify failed'
+			));
+		}
+    }
+
 	/**
 	 * 修改某个菜单
 	 * 修改菜单的时候应该也是一整个表单一起传送过来，而不是单个的传过来，所以还是需要完整的数据
 	 * 请求类型：POST
 	 */
 	public function modifyMenu(){
-		if( !Auth::check() ){
-			return json_encode(array(
-				'status' => '400',
-				'msg'    => 'login failed'
-			));
-		}
 		$user = Auth::user();
 		
 		$record = array(
@@ -483,14 +567,7 @@ class ShopAdminController extends BaseController {
 	 * 修改订单状态
 	 * 请求类型：POST
 	 */
-	public function modifyOrder(){
-		if( !Auth::check() ){
-			return json_encode(array(
-				'status' => '400',
-				'msg'    => 'login failed'
-			));
-		}
-		
+	public function modifyOrder(){		
 		$record = array(
 			'order_id'      => Input::get('order_id'),
 			'state_of_shop' => Input::get('state')

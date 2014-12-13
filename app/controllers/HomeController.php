@@ -7,8 +7,8 @@ class HomeController extends BaseController {
 	/**
 	 * 商家管理首页
 	 */
-	public function index($shop_id){
-		$shop = Shop::find($shop_id);
+	public function index(){
+		$shop = Shop::find(Auth::user()->shop_id);
 
 		$output['shop_name'] = $shop->name;
 		$output['shop_logo'] = $shop->pic;
@@ -21,7 +21,9 @@ class HomeController extends BaseController {
 	/**
 	 * 获取首页图表数据
 	 */
-	public function getChart($shop_id){
+	public function getChart(){
+		$shop_id = Auth::user()->shop_id;
+
 		$output = array(
 			'success' => 'true',
 			'state' => 200,
