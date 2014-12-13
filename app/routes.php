@@ -62,7 +62,10 @@ Route::get("category", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+        "data" => [
+            "message" => Session::get('catMsg')
+        ]
 	];
 
 	return View::make("template.category.category")->with($data);
@@ -264,4 +267,10 @@ Route::post("/announce", function(){
 //添加商品
 Route::post("/good", function(){
     return Redirect::to('/good')->with('goodMsg', '添加成功!');
+});
+
+//添加分类
+
+Route::post("category", function(){
+    return Redirect::to('/category')->with('catMsg', '添加分类成功!');
 });
