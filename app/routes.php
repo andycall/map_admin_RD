@@ -121,7 +121,11 @@ Route::get("map", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+        "data" => [
+            "image_url" => "http://www.baidu.com/img/bd_logo1.png",
+            "message" => Session::get("mapMsg")
+        ]
 	];
 
 	return View::make("template.map.map")->with($data);
