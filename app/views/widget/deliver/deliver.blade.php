@@ -25,6 +25,8 @@
            </div>
        <%}%>
  </div>
+
+ <button type="button" class="btn btn-default btn-lg"><a href="<%= sure_href%>">确认订单</a></button>
 </script>
 
 @section("css")

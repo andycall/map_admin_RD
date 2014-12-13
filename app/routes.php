@@ -523,7 +523,7 @@ Route::get("/deliver_goods",function(){
                 "good_name" => "烧烤rthioyhjio", // 商品名称
                 "good_value" => "450元",   // 商品价格
                 "good_amount" => "200个",    // 商品数量
-                "good_total" => "1000元",     // 价格总计
+                "good_total" => "103460元",     // 价格总计
             ]
         ]
     ];
