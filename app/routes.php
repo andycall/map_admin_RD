@@ -36,7 +36,7 @@ Route::get("announce", function()
 	$data = [
 		"main"   => url("/"),
 		"announce" => url("/announce"),
-        "addAnnounce" => url("/addAnnounce"),
+        "modifyAnnounce" => url("/modifyAnnounce"),
 		"category" => url("/category"),
 		"deliver"  => url("/deliver"),
 		"good"     => url("/good"),
@@ -252,6 +252,11 @@ Route::post("/goodsChart", function(){
 	];
 
 	return Response::json($data);
+});
+
+//修改公告
+Route::post("/modifyAnnounce", function(){
+    return Redirect::to('/announce')->with('announceMsg', '修改成功!');
 });
 
 //添加公告
