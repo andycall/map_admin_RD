@@ -1,3 +1,10 @@
 body{
 	font: normal;
 }
+
+.panel{
+    margin-top: 20px;
+}
+.panel-primary>div{
+    line-height: 30px;
+}

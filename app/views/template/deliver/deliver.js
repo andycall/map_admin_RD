@@ -6,13 +6,17 @@ require.config({
 		"siderbar" : "../widget/siderbar",
 		"main" : "../widget/main",
 		"good" : "../widget/good",
-		"deliver" : "../widget/deliver"
+		"deliver" : "../widget/deliver",
+        "port" : "../template/deliver/port"
 	},
 	shim: {
 		"bootstrap": {
 			deps: ["jquery"],
 			exports: "$.fn.popover"
-		}
+		},
+        "underscore" : {
+            exports : "_"
+        }
 	},
 	enforceDefine: true
 });
