@@ -2,6 +2,7 @@
 
   <h3>添加商品</h3>
 
+
   @if($data['message'])
     <p class="bg-success message">{{{$data['message']}}}</p>
   @endif

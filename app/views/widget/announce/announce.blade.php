@@ -1,5 +1,6 @@
 <div id="announcement">
 
+
   <h3>修改餐厅公告</h3>
 
   @if($data['message'])
