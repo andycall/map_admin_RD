@@ -25,7 +25,7 @@ class UserAccessController extends BaseController{
 
 
         if($user->save()){
-            $uid = $user->id;
+            $uid = $user->uid;
         }else{
             echo "user base Error";
             exit;
@@ -41,9 +41,6 @@ class UserAccessController extends BaseController{
         if($Buser->save()){
             echo "ok";
         }
-
-
-
     }
 
 

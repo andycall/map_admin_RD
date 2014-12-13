@@ -7,63 +7,104 @@
  * addMenu()				添加菜单
  * addShop()				添加店铺
  * delMenu()				删除菜单
+ * getSucceed()				获取成功的订单
+ * getShopLogo()			获取LOGO
+ * logoUpload()				LOGO上传
+ * menuImageUpload()		菜单图片上传
  * modifyMenu()				修改菜单
  * modifyOrder()			修改订单状态:0用户已提交未付款,2用户已付款未配送,3正在配送,4配送完成，店家确认收获
  */
 class ShopAdminController extends BaseController {
 
 	/**
+	 * 添加公告
+	 */
+	public function addAnnounce($shop_id){
+		$record = array(
+			'content' => Input::get('announce_content'),	// 餐厅公告内容 
+			//'start_price' => Input::get('start_price'),		// 起送价描述
+			//'activities' => Input::get('activities')
+		);
+		$rules = array(
+			'content' => 'required | max:255',
+			//'start_price' => 'max:50'
+		);
+		$v = Validator::make($record, $rules);
+		if( $v->fails() ){
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;		
+		}
+
+		$shop = Shop::find($shop_id);
+		if( $shop->update(array('announcement' => $record['content'])) ){
+			return json_encode(array(
+				'status' => '200',
+				'msg'    => 'add finished'
+			));		
+		}else{
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'add failed'
+			));
+		}
+	}
+
+	/**
 	 * 添加分组
 	 * 请求类型：POST
 	 */
 	public function addGroup(){
-		if( !Auth::check() ){
-			return Redirect::to('http://weibo.com');
-		}
 		$user   = Auth::user();
 		
 		$record = array(
 			'shop_id'     => Input::get('shop_id'),
-			'activity_id' => Input::get('activity_id'),
+			//'activity_id' => Input::get('activity_id'),
 			'name'        => Input::get('name'),
-			'icon'        => Input::file('icon'),
+			//'icon'        => Input::file('icon'),
 			'name_abbr'   => Input::get('name_abbr')
 		);
 		$rules = array(
 			'shop_id'     => 'required | integer | exists:shop,id',
-			'activity_id' => 'required | integer | exists:activity,aid',
+			//'activity_id' => 'required | integer | exists:activity,aid',
 			'name'        => 'required | max:50',
-			'icon'        => 'image | max:1024',
+			//'icon'        => 'image | max:1024',
 			'name_abbr'   => 'max:100'
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
-			echo $v->messages();
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
 		}
 
 		$group = new Menugroup($record);
 		if( $group->save() ){
-			echo 'OKOK';
+			return json_encode(array(
+				'status' => '200',
+				'msg'    => 'add finished'
+			));
 		}else{
-			echo 'error';
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'add failed'
+			));
 		}
 	}
 
 	/**
 	 * 添加一个菜单
 	 * 商铺
-	 * 请求类型：POST
 	 */
 	public function addMenu(){
-		if( !Auth::check() ){
-			return Redirect::to('http://weibo.com');
-		}
 		$user = Auth::user();
 
 		$record = array(
 			'b_uid'         => 4,		// 这个应该由Auth获得
 			'shop_id'       => Input::get('shop_id'),
-			'group_id'      => Input::get('group_id'),
+			'group_id'      => Input::get('classify_id'),
 			'title'	        => Input::get('title'),
 			'price'         => Input::get('price'),
 			'orignal_price' => Input::get('orignal_price'),
@@ -85,15 +126,21 @@ class ShopAdminController extends BaseController {
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
-			echo $v->messages();
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
 		}
 		array_shift($record);
 
 		$menu = new Menu($record);
-		if( $menu->save() ){
-			echo 'OKOK';
+		if( $menu->save() ){			// 成功后返回的是分类列表
+			return $this->getCategory();
 		}else{
-			echo 'error';
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'add failed'
+			));
 		}
 	}
 
@@ -102,63 +149,70 @@ class ShopAdminController extends BaseController {
 	 *
 	 * 请求类型：POST
 	 */
-	public function addShop(){
-		if( !Auth::check() ){
-			return Redirect::to('http://baidu.com');
-		}
-		
-		$user = Auth::user();		
+	public function addShop(){		
+		$user = Auth::user();	
 
 		$record = array(
 			'b_uid'            => $user->uid,
-			'name'             => Input::get('name'),
-			'addtime'          => time(),
-			'address'          => Input::get('address'),
-			'intro'            => Input::get('intro'),
-			'pic'              => Input::file('pic'),				// 店铺logo
+			'name'             => Input::get('shop_name'),			// 店铺名称
+			'addtime'          => time(),							// 添加时间
+			'address'          => Input::get('shop_address'),
+			'intro'            => Input::get('shop_statement'),		// 商家简介
+			'type'             => Input::get('shop_type'),			// 商家类型，指口味
+			'pic'              => Input::file('shop_logo'),			// 店铺logo
+			'deliver_price'    => Input::get('price_begin'), 		// 起送价
+			'begin_time'       => Input::get('deliver_begin'), 		// 起送时间
+			'operation_time'   => Input::get('shop_time'),		// 商家开门时间
+			/*
 			'linkname'         => Input::get('linkname'),			// 联系人
 			'tel'              => Input::get('tel'),				// 联系电话
 			'ticket'           => Input::get('ticket'),				// 是否提供发票
 			'interval'         => Input::get('interval'),			// 送货时间间隔/送货速度
 			'begin_price'      => Input::get('begin_price'),		// 起送价描述
-			'deliver_price'    => Input::get('deliver_price'), 		// 起送价
-			'operation_time'   => Input::get('operation_time'),		// 运营时间
-			'begin_time'       => Input::get('begin_time'), 		// 起送时间
-			'type'             => Input::get('type'),				// 商家类型，指口味
 			'reserve'          => Input::get('reserve'),			// 是否接受预定
 			'support_activity' => Input::get('support_activity'),	// 支持的活动
 			'is_online'        => Input::get('is_online'),			// 是否营业
 			'announcement'     => Input::get('announcement'), 		// 商家公告
+			*/
 		);
 		$rules = array(
 			'name'             => 'required | max:50',
 			'address'          => 'required | max:100',
 			'intro'            => 'required | max:2048',
 			'pic'              => 'required | image| max:2048',
-			'linkname'         => 'required | max:50',
-			'tel'              => 'required | max:20',
-			'ticket'           => 'required | in:0,1',
-			'interval'         => 'required | integer | max:3600',
-			'begin_price'      => 'required | max:50',
+			//'linkname'         => 'required | max:50',
+			//'tel'              => 'required | max:20',
+			//'ticket'           => 'required | in:0,1',
+			//'interval'         => 'required | integer | max:3600',
+			//'begin_price'      => 'required | max:50',
 			'deliver_price'    => 'numeric',
 			'operation_time'   => 'required | max:50',
 			'begin_time'       => 'required | max:5',
 			'type'             => 'required | max:45',
-			'reserve'          => 'required | in:0,1',
-			'support_activity' => 'max:45',
-			'is_online'        => 'required | in:0,1',
-			'announcement'     => 'required | max:2048'
+			//'reserve'          => 'required | in:0,1',
+			//'support_activity' => 'max:45',
+			//'is_online'        => 'required | in:0,1',
+			//'announcement'     => 'required | max:2048'
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
-			echo $v->messages();
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
 		}
 		var_dump($record);
 		$shop = new Shop($record);
 		if( $shop->save() ){
-			echo 'OKOK';
+			return json_encode(array(
+				'status' => '200',
+				'msg'    => 'add finished'
+			));
 		}else{
-			echo 'error';
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'add failed'
+			));
 		}
 	}
 
@@ -168,8 +222,10 @@ class ShopAdminController extends BaseController {
 	 */
 	public function delMenu(){
 		if( !Auth::check() ){
-			return Redirect::to('http://baidu.com');
-		}
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'login failed'
+			));		}
 
 		$record = array(
 			'menu_id' => Input::get('menu_id')
@@ -180,15 +236,187 @@ class ShopAdminController extends BaseController {
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
-			echo $v->messages();
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
 		}
 
 		if( (Menu::find(Input::get('menu_id'))->delete() )){
-			echo 'OKOK';
+			return json_encode(array(
+				'status' => '200',
+				'msg'    => 'del finished'
+			));
 		}else{
-			echo 'error';
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'del failed'
+			));
 		}		
 	}
+
+	/**
+	 * 获取分类列表
+	 */
+	public function getCategory($shop_id){
+		$groups = Shop::find($shop_id)->groups;
+		$category = array();
+		foreach($groups as $group){
+			array_push($category, array(
+				'classify_name' => $group->title,
+				'classify_name_abbr' => (mb_strlen($group->name, 'utf8') > 10) ? mb_substr($group->name, 0, 3, 'utf8').'...' : $group->name,
+				'classify_id' => $group->id,
+				'classify_count' => $group->menus->count(),
+				'classify_icon' => $group->icon
+			));
+		}
+		return $category;
+	}
+
+	/**
+	 * 获取成功的订单
+	 */
+	public function getSucceed($shop_id){
+		$menus = order::where('shop_id', $shop_id)->where('state_of_shop', 4)->get();
+		
+		var_dump($menus);	
+	}
+
+	/**
+	 * 获取店铺logo图片
+	 */
+	public function getShopLogo($shop_id){
+		$b_uid = Auth::user()->uid;
+		$directoryName = $b_uid % 100;
+		$savePath = public_path().'/uploads/businessUser/'.$directoryName.'/logo';
+
+		return json_encode(array(
+			'success' => 'true',
+			'state' => 200,
+			'nextSrc' => '',
+			'errMsg' => '',
+			'no' => 0,
+			'data' => array('image_url' => $savePath)
+		));
+	}
+
+	/**
+     * 店铺logo上传
+     **/
+    public function logoUpload(){
+        $file = Input::file('photo');
+        $shop_id = Input::get('shop_id');
+
+        if($file && $file->isValid()) {
+			$filename  = $file->getClientOriginalName();//获取初始文件名
+			
+			//获取文件类型并进行验证
+			$filetype  = $file->getMimeType();
+			$typeArray = explode('/', $filetype, 2);
+            if($typeArray['0'] != 'image'){
+                echo json_encode(array(
+					'status' =>'400',
+					'msg'    =>'文件格式或类型违法!'
+                ));
+                exit();
+            }
+            $typeName =  $file->getClientOriginalExtension();//获取文件后缀名
+
+			$b_uid         = Auth::user()->uid;
+			$newFileName   = $this->fileNameMake($filename,$typeName);
+			$directoryName = $b_uid%100;//根据用户id和100的模值，生成对应存储目录地址
+			$savePath      = public_path().'/uploads/businessUser/'.$directoryName.'/logo';
+
+            $fileSave = $file -> move($savePath,$newFileName);
+
+            if($fileSave){
+            	$pic = asset('uploads/businessUser/'.$directoryName.'/logo/'.$newFileName);
+            	if( Shop::where('id', $shop_id)->update(array('pic' => $pic)) ){
+            		echo json_encode(array(
+						'status' => '200',
+						'msg'    => 'upload finished'
+            		));
+            	}else{
+            		echo json_encode(array(
+						'status' => '400',
+						'msg'    => 'save failed'
+            		));
+            	}
+            }else{
+            	echo json_encode(array(
+					'status' => '400',
+					'msg'    => 'move failed'
+            	));
+            }
+        }else{
+            echo json_encode(array(
+				'status' =>'400',
+				'msg'    =>'invalid file'
+            ));
+        }
+    }
+
+    /**
+     * 菜单图片的上传
+     */
+    public function menuImageUpload(){
+    	if( !Auth::check() ){
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'login failed'
+			));
+    	}
+		$file    = Input::file('photo');
+		$menu_id = Input::get('menu_id');
+
+        if($file && $file->isValid()) {
+			$filename  = $file->getClientOriginalName();//获取初始文件名
+			
+			//获取文件类型并进行验证
+			$filetype  = $file->getMimeType();
+			$typeArray = explode('/', $filetype, 2);
+            if($typeArray['0'] != 'image'){
+                echo json_encode(array(
+					'status' =>'400',
+					'msg'    =>'文件格式或类型违法!'
+                ));
+                exit();
+            }
+			$typeName      =  $file->getClientOriginalExtension();//获取文件后缀名
+			
+			$b_uid         = Auth::user()->uid;
+			$newFileName   = $this->fileNameMake($filename,$typeName);
+			$directoryName = $b_uid%100;//根据用户id和100的模值，生成对应存储目录地址
+			$savePath      = public_path().'/uploads/businessUser/'.$directoryName.'/menuphoto';
+			
+			$fileSave      = $file -> move($savePath,$newFileName);
+
+            if($fileSave){
+            	$pic = asset('uploads/businessUser/'.$directoryName.'/menuphoto/'.$newFileName);
+            	if( Menu::where('id', $menu_id)->update(array('pic' => $pic)) ){
+            		echo json_encode(array(
+						'status' => '200',
+						'msg'    => 'upload finished'
+            		));
+            	}else{
+            		echo json_encode(array(
+						'status' => '400',
+						'msg'    => 'save failed'
+            		));
+            	}
+            }else{
+            	echo json_encode(array(
+					'status' => '400',
+					'msg'    => 'move failed'
+            	));
+            }
+        }else{
+            echo json_encode(array(
+				'status' =>'400',
+				'msg'    =>'invalid file'
+            ));
+        }
+    }
 
 	/**
 	 * 修改某个菜单
@@ -196,9 +424,11 @@ class ShopAdminController extends BaseController {
 	 * 请求类型：POST
 	 */
 	public function modifyMenu(){
-		
 		if( !Auth::check() ){
-			return Redirect::to('http://weibo.com');
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'login failed'
+			));
 		}
 		$user = Auth::user();
 		
@@ -227,16 +457,25 @@ class ShopAdminController extends BaseController {
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
-			echo $v->messages();
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
 		}
 
 		$menu_id = $record['menu_id'];
 		array_shift($record);	// 去掉不需要的两个字段
 		array_shift($record);
 		if( Menu::find($menu_id)->update($record) ){
-			return 'OKOK';
+			return json_encode(array(
+				'status' => '200',
+				'msg'    => 'modify faile'
+			));
 		}else{
-			echo 'error';
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'modify failed'
+			));
 		}
 	}
 
@@ -246,7 +485,10 @@ class ShopAdminController extends BaseController {
 	 */
 	public function modifyOrder(){
 		if( !Auth::check() ){
-			return Redirect::to('http://baidu.com');
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'login failed'
+			));
 		}
 		
 		$record = array(
@@ -259,13 +501,40 @@ class ShopAdminController extends BaseController {
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
-			echo $v->messages();
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
 		}
 
 		if( Order::where('id', $record['order_id'])->update(array('state_of_shop' => $record['state'])) ){
-			echo 'OKOK';
+			return json_encode(array(
+				'status' => '200',
+				'msg'    => 'modify faile'
+			));
 		}else{
-			echo 'error';
+			return json_encode(array(
+				'status' => '400',
+				'msg'    => 'modify failed'
+			));
 		}
 	}
+
+    /**
+     * 生成服务器端存储的新文件名
+     **/
+    private function fileNameMake($fileName,$fileType){
+        $string = '';
+        $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+
+		$max    = strlen($strPol)-1;
+		$length = strlen($fileName);
+        for($i=0;$i<$length;$i++){
+            $string.=$strPol[rand(0,$max)];//rand($min,$max)生成介于min和max两个数之间的一个随机整数
+        }
+
+        $newFileName = md5($fileName.time().$string).'.'.$fileType;
+
+        return $newFileName;
+    }
 }
