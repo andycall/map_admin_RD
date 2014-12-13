@@ -1,4 +1,4 @@
-<div>
+<div style="padding: 40px 20px">
 
     <p>商家名称：{{$widge_shop_info["shop_name"]}}</p>
     <p>商家类型：{{$widge_shop_info["shop_type"]}}</p>
