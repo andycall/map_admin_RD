@@ -25,6 +25,9 @@ Route::get("shop_info", function()
 			"shop_statement" => "大盘鸡，就是好吃", // 商家简介
 			"shop_open" => "12：00", // 开门时间
 			"shop_close" => "8：00" // 关门时间
+		],
+		"data" => [
+			"message" => Session::get('infoMsg')
 		]
 	];
 
@@ -274,7 +277,11 @@ Route::post("/good", function(){
 });
 
 //添加分类
-
 Route::post("category", function(){
-    return Redirect::to('/category')->with('catMsg', '添加分类成功!');
+	return Redirect::to('/category')->with('catMsg', '添加分类成功!');
+});
+
+//添加商店基本信息
+Route::post("shop_info", function(){
+	return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');
 });
