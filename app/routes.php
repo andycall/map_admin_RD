@@ -124,7 +124,11 @@ Route::get("map", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+        "data" => [
+            "image_url" => "http://www.baidu.com/img/bd_logo1.png",
+            "message" => Session::get("mapMsg")
+        ]
 	];
 
 	return View::make("template.map.map")->with($data);
@@ -468,4 +472,8 @@ Route::post("category", function(){
 //添加商店基本信息
 Route::post("shop_info", function(){
 	return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');
+});
+
+Route::post("map", function(){
+    return Redirect::to('/map')->with('mapMsg', '成功!');
 });
