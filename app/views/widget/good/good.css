@@ -4,3 +4,6 @@ body {
 #addGood h3 {
   text-align: center;
 }
+#addGood .message {
+  padding: 10px;
+}
