@@ -1,11 +1,10 @@
 require.config({
-    baseUrl: "/js/lib/",
+    baseUrl: "js/lib/",
     paths: {
         shop_info: "../template/shop_info",
         map: "../widget/map",
         siderbar: "../widget/siderbar",
-        main: "../widget/main",
-        good: "../widget/good"
+        main: "../widget/main"
     },
     shim: {
         bootstrap: {

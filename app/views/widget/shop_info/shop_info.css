@@ -1,3 +1,9 @@
 body{
 	font: normal;
 }
+#shop_info h3 {
+	text-align: center;
+}
+#shop_info .message {
+	padding: 10px;
+}
