@@ -73,7 +73,29 @@ Route::get("good", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+		"widge_category" => [
+			[
+				"classify_name" => "buy1",
+				"classify_id" => "1"
+			],
+			[
+				"classify_name" => "buy2",
+				"classify_id" => "2"
+			],
+			[
+				"classify_name" => "buy3",
+				"classify_id" => "3"
+			],
+			[
+				"classify_name" => "buy4",
+				"classify_id" => "4"
+			],
+			[
+				"classify_name" => "buy5",
+				"classify_id" => "5"
+			]
+		]
 	];
 	return View::make("template.good.good")->with($data);
 });

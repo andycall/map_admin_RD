@@ -1,7 +1,9 @@
 <div>
 
-  <p>添加公告：</p>
+  <p>餐厅公告：</p>
   <textarea></textarea>
+  <p>起送价格；</p>
+  <input type="text"/>
 
 </div>
 

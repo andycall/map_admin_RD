@@ -13,6 +13,36 @@
 		shop_address : "" // 商家地址
 	}
 
+
+	//首页图表
+	type : "get"
+    url  : "",
+    input : {
+
+
+    }
+    output:{
+        success : "true"                                // 成功返回true, 失败返回false
+        state   : 200                                   // HTTP 状态码
+        errMsg  : ""                                    // 如果出现错误, 错误信息就出现在这, 如果没有, 那内容为空.
+        no      : 0                                     // 错误号 ,错误号就出现在这, 如果没有, 那内容为空.
+        data    : {
+        	month : ["" "" "" "" "" ""]					// 用于比较的六个月份
+			goods : [   								// 按菜系类别返回多组数据
+                {
+					style : ""							// 菜系
+					[
+						{
+							goods_id : ""       		// 商品id
+							goods_name : ""    			// 商品名称
+							goods_sails : ["" "" "" "" "" ""] 	    // 前六个月的销量商品销量
+						}
+					]
+                }
+            ]
+        }
+    }
+
 ### 商家基本信息添加页面
 
 	type : "form"
@@ -60,7 +90,6 @@
 	type : "form"
 	input : {
 		classify_name : "10元管饱" // 类别名称
-		classify_name_abbr : "点餐就有红包拿！没办…" // 类别名称简写
 	}
 
 ### 添加公告
@@ -97,10 +126,7 @@ url  : ""
 		category : [
 			{
 				classify_name : "10元管饱" // 类别名称
-				classify_name_abbr : "点餐就有红包拿！没办…" // 类别名称简写
 				classify_id : "" // 类别id
-				classify_count : "" // 类别中有多少商品
-				classify_icon : "" // 类别图标地址
 			}
 		]
 	}
@@ -108,9 +134,9 @@ url  : ""
 	input : {
 		classify_sec : [
 			{
-				classify_id   : ['1','2'] // 支持的类别id
 				good_name :    "" // 商品名称
 				good_price :   "" // 商品价格
+				good_style_id :   "" // 商品类别
 			}
 		]
 	}
@@ -173,45 +199,6 @@ output : {
 			}
 		]
 	}
-
-
-
-------------------- Blade END -------------------------------
-
-
-
-------------------- AJAX ZONE -------------------------------
-
-	//首页图表
-	type : "post"
-    url  : "",
-    input : {
-
-
-    }
-    output:{
-        success : "true"                                // 成功返回true, 失败返回false
-        state   : 200                                   // HTTP 状态码
-        errMsg  : ""                                    // 如果出现错误, 错误信息就出现在这, 如果没有, 那内容为空.
-        no      : 0                                     // 错误号 ,错误号就出现在这, 如果没有, 那内容为空.
-        data    : {
-        	month : ["" "" "" "" "" ""]					// 用于比较的六个月份
-			goods : [   								// 按菜系类别返回多组数据
-                {
-					style : ""							// 菜系
-					[
-						{
-							goods_id : ""       		// 商品id
-							goods_name : ""    			// 商品名称
-							goods_sails : ["" "" "" "" "" ""] 	    // 前六个月的销量商品销量
-						}
-					]
-                }
-            ]
-        }
-    }
-
-
 
 
 
