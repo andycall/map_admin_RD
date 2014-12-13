@@ -2,6 +2,8 @@
 <script src="js/lib/echarts.js" type="text/javascript"></script>
 <script src="js/lib/jquery.js" type="text/javascript"></script>
 
+<p>Hi! {{$widge_main["shop_name"]}}</p>
+
 <p style="text-align: center; font-size: 26px;padding: 20px">进六个月各菜品销量统计</p>
 <div id="main" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
 
@@ -10,7 +12,6 @@
   $.ajax({
     url: "/goodsChart",
     type: "POST",
-    data: 123,
     success: function(res) {
 
       if (res.success == 'true') {

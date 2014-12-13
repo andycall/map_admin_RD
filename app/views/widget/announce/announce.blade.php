@@ -1,4 +1,9 @@
-<div>主页</div>
+<div>
+
+  <p>添加公告：</p>
+  <textarea></textarea>
+
+</div>
 
 @section("css")
   @parent

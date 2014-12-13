@@ -1,4 +1,9 @@
-<div>添加分类</div>
+<div>
+
+    <p>添加分类：</p>
+    <input type="text"/>
+
+</div>
 
 @section("css")
     @parent

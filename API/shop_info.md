@@ -8,29 +8,9 @@
 	type : "blade"
 	output : {
 		shop_name : "" // 商家名称
-		shop_logo : "" // 商家logo
+		shop_logo : "" // 商家logo地址
 		shop_type : "" // 商家类型
 		shop_address : "" // 商家地址
-		legend : ['销量'] // Echart legend
-		xAxis : [
-			{
-				type : "category",
-				data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-			}
-		],*
-		yAxis : [
-			{
-				type : "value"
-			}
-		]
-
-		series : [
-			{
-				"name":"销量",
-	            "type":"bar",
-	            "data":[5, 20, 40, 10, 10, 20]
-			}
-		]
 	}
 
 ### 商家基本信息添加页面

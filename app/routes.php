@@ -13,7 +13,19 @@ Route::get("shop_info", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+		"widge_shop_info" => [
+			"shop_name" => "大盘鸡", // 商家名称
+			"shop_logo" => "", // 商家logo
+			"shop_type" => "中式", // 商家类型
+			"shop_address" => "堕落街", // 商家地址
+			"price_begin" => "58", // 起送价
+			"deliver_begin" => "6；00", // 送餐开始时间
+			"shop_time" => "09:50 - 13:30 / 16:00 - 19:30", // 商家开门时间. 单输入框
+			"shop_statement" => "大盘鸡，就是好吃", // 商家简介
+			"shop_open" => "12：00", // 开门时间
+			"shop_close" => "8：00" // 关门时间
+		]
 	];
 
 	return View::make("template.shop_info.shop_info")->with($data);
@@ -123,14 +135,20 @@ Route::get('users', function()
 # 商家管理主页面
 Route::get('/', function(){
 	$data = [
-		"main"   => url("/"),
+		"main"   => url("/123"),
 		"announce" => url("/announce"),
 		"category" => url("/category"),
 		"deliver"  => url("/deliver"),
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+		"widge_main" => [
+			"shop_name" => "大盘鸡",
+			"shop_logo" => "",
+			"shop_type" => "中餐",
+			"shop_address" => "堕落街"
+		]
 	];
 
 	return View::make("template.main.main")->with($data);
