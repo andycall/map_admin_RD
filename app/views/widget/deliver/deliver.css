@@ -1,3 +1,13 @@
 body{
 	font: normal;
 }
+a:hover{
+    text-decoration: none;
+}
+
+.panel{
+    margin-top: 20px;
+}
+.panel-primary>div{
+    line-height: 30px;
+}

@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'model' => 'User',
+	'model' => 'BUser',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'table' => 'users',
+	'table' => 'v_business_user',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return array(
 	| they have less time to be guessed. You may change this as needed.
 	|
 	*/
-
+/*
 	'reminder' => array(
 
 		'email' => 'emails.auth.reminder',
@@ -66,6 +66,6 @@ return array(
 
 		'expire' => 60,
 
-	),
+	),*/
 
 );

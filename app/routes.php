@@ -1,8 +1,7 @@
 <?php
 
-
+/*
 # 模板测试
-
 Route::get("shop_info", function()
 {
 	$data = [
@@ -25,12 +24,16 @@ Route::get("shop_info", function()
 			"shop_statement" => "大盘鸡，就是好吃", // 商家简介
 			"shop_open" => "12：00", // 开门时间
 			"shop_close" => "8：00" // 关门时间
+		],
+		"data" => [
+			"message" => Session::get('infoMsg')
 		]
 	];
 
 	return View::make("template.shop_info.shop_info")->with($data);
 });
-
+*/
+/*
 Route::get("announce", function()
 {
 	$data = [
@@ -51,7 +54,8 @@ Route::get("announce", function()
 
 	return View::make("template.announce.announce")->with($data);
 });
-
+*/
+/*
 Route::get("category", function()
 {
 	$data = [
@@ -70,7 +74,9 @@ Route::get("category", function()
 
 	return View::make("template.category.category")->with($data);
 });
+*/
 
+/*
 Route::get("good", function()
 {
 	$data = [
@@ -110,6 +116,7 @@ Route::get("good", function()
 	];
 	return View::make("template.good.good")->with($data);
 });
+*/
 
 Route::get("map", function()
 {
@@ -121,7 +128,11 @@ Route::get("map", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+        "data" => [
+            "image_url" => "http://www.baidu.com/img/bd_logo1.png",
+            "message" => Session::get("mapMsg")
+        ]
 	];
 
 	return View::make("template.map.map")->with($data);
@@ -153,22 +164,205 @@ Route::get("success", function()
 		"good"     => url("/good"),
 		"map"      => url("/map"),
 		"shop_info" => url("/shop_info"),
-		"success"  => url("/success")
+		"success"  => url("/success"),
+		"widge_success" => [
+			"deal_count" => "11",
+			"deal" => [
+				[
+					"deal_id" => "123",
+					"deal_statue" => "3",
+					"same_again" => "##",
+					"deal_again" => "##",
+					"shop_name" => "臭脚丫",
+					"deal_number" => "1234567345678",
+					"deal_time" => "2014-11-18 11:11:27",
+					"deal_phone" => "15340525659 15340525659",
+					"deliver_address" => "邮电大学太极操场西6门",
+					"deliver_phone" => "18716625394",
+					"deliver_remark" => "吃吃吃！",
+					"deal_speed" => "0",
+					"deal_satisfied" => "0",
+					"good" => [
+						[
+							"goods_id" => "111123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						],
+						[
+							"goods_id" => "111123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "2"
+						]
+					],
+					"others" => [
+						[
+							"item_name" => "红烧肉",
+							"item_value" => "-5",
+							"item_amount" => "1",
+							"item_total" => "-5"
+						]
+					],
+					"total" => "19"
+				],
+				[
+					"shop_id" => "123",
+					"deal_id" => "123",
+					"deal_statue" => "0",
+					"same_again" => "##",
+					"deal_is_retrun" => "0",
+					"deal_return" => "##",
+					"deal_is_pre" => "1",
+					"deal_pre_time" => "2014-11-17 11:45:00",
+					"deal_again" => "##",
+					"shop_name" => "臭脚丫",
+					"deal_number" => "1234567345678",
+					"deal_time" => "2014-11-18 11:11:27",
+					"deal_phone" => "15340525659 15340525659",
+					"deliver_address" => "邮电大学太极操场西6门",
+					"deliver_phone" => "18716625394",
+					"deliver_remark" => "吃吃吃！",
+					"deal_speed" => "75分钟",
+					"deal_satisfied" => "0",
+					"good" => [
+						[
+							"goods_id" => "123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						],
+						[
+							"goods_id" => "123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						]
+					],
+					"others" => [
+						[
+							"item_name" => "减减减",
+							"item_value" => "-5",
+							"item_amount" => "1",
+							"item_total" => "-5"
+						]
+					],
+					"total" => "19"
+				],
+				[
+					"shop_id" => "123",
+					"deal_id" => "123",
+					"deal_statue" => "1",
+					"same_again" => "##",
+					"deal_is_retrun" => "1",
+					"deal_return" => "##",
+					"deal_is_pre" => "1",
+					"deal_pre_time" => "2014-11-17 11:45:00",
+					"deal_again" => "##",
+					"shop_name" => "臭脚丫",
+					"deal_number" => "1234567345678",
+					"deal_time" => "2014-11-18 11:11:27",
+					"deal_phone" => "15340525659 15340525659",
+					"deliver_address" => "邮电大学太极操场西6门",
+					"deliver_phone" => "18716625394",
+					"deliver_remark" => "吃吃吃！",
+					"deal_speed" => "5分钟",
+					"deal_satisfied" => "0",
+					"good" => [
+						[
+							"goods_id" => "123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						],
+						[
+							"goods_id" => "123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						]
+					],
+					"others" => [
+						[
+							"item_name" => "红烧肉",
+							"item_value" => "-5",
+							"item_amount" => "1",
+							"item_total" => "-5"
+						]
+					],
+					"total" => "19"
+				],
+				[
+					"shop_id" => "123",
+					"deal_id" => "123",
+					"deal_statue" => "2",
+					"same_again" => "##",
+					"deal_is_retrun" => "1",
+					"deal_return" => "##",
+					"deal_is_pre" => "1",
+					"deal_pre_time" => "2014-11-17 11:45:00",
+					"deal_again" => "##",
+					"shop_name" => "臭脚丫",
+					"deal_number" => "1234567345678",
+					"deal_time" => "2014-11-18 11:11:27",
+					"deal_phone" => "15340525659 15340525659",
+					"deliver_address" => "邮电大学太极操场西6门",
+					"deliver_phone" => "18716625394",
+					"deliver_remark" => "吃吃吃！",
+					"deal_speed" => "5分钟",
+					"deal_satisfied" => "1",
+					"good" => [
+						[
+							"goods_id" => "123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						],
+						[
+							"goods_id" => "123",
+							"goods_name" => "红烧肉",
+							"goods_value" => "12",
+							"goods_amount" => "1",
+							"goods_total" => "12",
+							"good_atisfied" => "0"
+						]
+					],
+					"others" => [
+						[
+							"item_name" => "红烧肉",
+							"item_value" => "-5",
+							"item_amount" => "1",
+							"item_total" => "-5"
+						]
+					],
+					"total" => "19"
+				]
+			]
+		]
 	];
 
 	return View::make("template.success.success")->with($data);
-});
-
-Route::get('users', function()
-{
-    return 'Users!';
 });
 
 
 # 商家管理主页面
 Route::get('/', function(){
 	$data = [
-		"main"   => url("/123"),
+		"main"   => url("/"),
 		"announce" => url("/announce"),
 		"category" => url("/category"),
 		"deliver"  => url("/deliver"),
@@ -188,22 +382,44 @@ Route::get('/', function(){
 
 });
 
-# 登录与注册
-Route::get('geohashSet', 'ShopController@geoHashSet');
-Route::get('geohashGet', 'ShopController@geoHashGet');
-Route::post('register', 'UserAccessController@register');
-Route::post('login', 'UserAccessController@login');
 
-# 商家的基本操作
-Route::post('addgroup', 'ShopAdminController@addGroup');		// 添加分组
-Route::post('addmenu', 'ShopAdminController@addMenu');          // 添加菜单
-Route::post('addshop', 'ShopAdminController@addShop');			// 添加店铺
-Route::post('delmenu', 'ShopAdminController@delMenu');          // 删除菜单
-Route::post('modifymenu', 'ShopAdminController@modifyMenu');	// 修改菜单
-Route::post('modifyorder', 'ShopAdminController@modifyOrder');	// 修改订单状态
+
+
+#或取待送订单信息
+Route::get('/getGoods', function(){
+    $data = [
+        "success" => true,
+
+        "deal_id"   => 456789,
+        "deal_time" => "08:45",
+        "deal_number" => 132123,
+        "deliver_address" => "重庆邮电大学17栋",
+        "deliver_phone"  => 18166387284,
+        "deliver_remark" => "小心保管",
+        "sure_href" => "http://www.baidu.com",
+
+        "goods" => [
+            [
+                "good_name" => "wjkhdkjewhd肉", // 商品名称
+                "good_value" => "12",   // 商品价格
+                "good_amount" => "20个",    // 商品数量
+                "good_total" => "100元",     // 价格总计
+            ],
+            [
+                "good_name" => "烧烤rthioyhjio", // 商品名称
+                "good_value" => "450元",   // 商品价格
+                "good_amount" => "200个",    // 商品数量
+                "good_total" => "1000元",     // 价格总计
+            ]
+        ]
+    ];
+
+    return Response::json($data);
+});
 
 
 //main 测试
+/*
 Route::post("/goodsChart", function(){
 	$data = [
 		"success" => "true",
@@ -252,25 +468,113 @@ Route::post("/goodsChart", function(){
 					]
 				]
 		]
-
-
 	];
-
 	return Response::json($data);
 });
+*/
 
+/*
 //修改公告
 Route::post("/announce", function(){
     return Redirect::to('/announce')->with('announceMsg', '修改成功!');
 });
-
+*/
+/*
 //添加商品
 Route::post("/good", function(){
     return Redirect::to('/good')->with('goodMsg', '添加成功!');
 });
+*/
 
+/*
 //添加分类
-
 Route::post("category", function(){
     return Redirect::to('/category')->with('catMsg', '添加分类成功!');
 });
+*/
+/*
+//添加商店基本信息
+Route::post("shop_info", function(){
+	return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');
+});
+*/
+
+#dliver测试
+Route::get("/deliver_goods",function(){
+    $res = [
+        "success" => true,
+
+        "deal_id"   => 456789,
+        "deal_time" => "08:45",
+        "deal_number" => 132123,
+        "deliver_address" => "重庆邮电大学17栋",
+        "deliver_phone"  => 18166387284,
+        "deliver_remark" => "小心保管",
+        "sure_href" => "http://www.baidu.com",
+
+        "goods" => [
+            [
+                "good_name" => "wjkhdkjewhd肉", // 商品名称
+                "good_value" => "12",   // 商品价格
+                "good_amount" => "20个",    // 商品数量
+                "good_total" => "100元",     // 价格总计
+            ],
+            [
+                "good_name" => "烧烤rthioyhjio", // 商品名称
+                "good_value" => "450元",   // 商品价格
+                "good_amount" => "200个",    // 商品数量
+                "good_total" => "103460元",     // 价格总计
+            ]
+        ]
+    ];
+
+    return Response::json($res);
+});
+
+
+Route::post("map", function(){
+    return Redirect::to('/map')->with('mapMsg', '成功!');
+});
+
+
+
+
+# 商家管理主页面
+Route::get('admin/{shop_id}', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));	// 商家店铺管理页面
+Route::post('goodsChart', array('before' => 'loginCheck', 'uses' => 'HomeController@getChart'));	// 获取图表
+
+# 登录与注册
+Route::get('geohashSet', 'ShopController@geoHashSet');
+Route::get('geohashGet', 'ShopController@geoHashGet');
+Route::post('register', 'UserAccessController@register');
+Route::post('login', 'UserAccessController@login');
+
+# 商家的基本操作
+Route::get('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getAnnounce'));	
+Route::post('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyAnnounce')); // 修改公告
+Route::get('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGroup'));
+Route::post('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addGroup'));		// 添加分组/分类
+Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopInfo'));	// 获取店铺基本信息
+Route::post('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyInfo'));	// 添加/修改店铺的基本信息
+Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGood'));		// 获取商品分类
+Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品
+
+Route::post('addshop', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addShop'));	// 添加店铺
+Route::post('delmenu', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@delMenu'));          // 删除菜单
+Route::post('modifymenu', array('before' => 'loginCheck', 'uses'=>'ShopAdminController@modifyMenu'));	// 修改菜单
+Route::post('modifyorder', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyOrder'));	// 修改订单状态
+Route::post('logoUpload', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@logoUpload'));	// 店铺logo上传
+Route::post('menuImageUpload', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@menuImageUpload'));	// 菜单图片上传
+Route::get('getshoplogo', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopLogo'));	// 添加活动之后获取图片
+
+#登录验证
+Route::filter('loginCheck', function()
+{
+    if (!Auth::check())
+    {
+        return Redirect::to('login');
+    }
+});
+
+Route::get('test/{shop_id}', 'HomeController@getChart');
+

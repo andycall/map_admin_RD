@@ -147,7 +147,7 @@ url  : ""
 
 
 ### 获取待送订单信息
-
+   url: "deliver_goods"
 	type : "get"
 	second : "" // 轮询间隔  1s
 	output : {
@@ -185,23 +185,47 @@ output : {
 
 	type : "blade"
 	output : {
-		deal_id : "" // 订单id
-		deal_number : "" // 订单号
-		deal_time : "" // 订单时间
-		deliver_address : "" // 订单送往地址
-		deliver_phone : ""  // 订单联系电话
-		deliver_remark : "" // 订单备注
-		deal_statue : "" // 交易状态 0 付款失败， 1 无效订单 
-		goods : [
-			{
-				good_name : "红烧肉" // 商品名称
-				good_value : "12"   // 商品价格
-				good_amount : ""    // 商品数量
-				good_total : ""     // 价格总计
-				good_satisfied : ""   // 商品评价
-			}
-		]
+		widge_success : {
+			deal_count :  ""        // 订单数量
+			deal : [
+				{
+					deal_id     :  ""  // 订单id
+					deal_statue :  ""  // 交易状态 0 付款失败 1 无效订单 3 交易已完成
+					deal_again  :  ""  // 商品的地址
+					shop_name   :  ""  // 商店的名称
+					deal_number :  ""  // 订单号
+					deal_time   :  ""  // 订单时间
+					deal_phone  :  ""  // 餐厅电话
+					deliver_address : "" // 订单送往地址
+					deliver_phone : "" // 订单联系电话
+					deliver_remark :  "" // 订单备注
+					deal_speed  :  "" // 送餐速度 0 没有评论 1小时15分钟 送餐时间
+					deal_satisfied : "" // 订单满意度 0 没有评价 1 不满意 2 一般般 3 满意
+					goods : [  // 购买的所有商品
+						{
+							goods_id    : ""       // 商品id
+							goods_name : "红烧肉"  // 商品名称
+							goods_value : ""       // 商品价格
+							goods_amount : ""      // 商品数量
+							goods_total  : ""      // 商品价格总计
+							good_atisfied: ""      // 商品评价
+						}
+					]
+					others : [  // 其他费用
+						{
+							item_name  : "11元管饱又管好（重庆）"        // 其他费用名称
+							item_value : ""                              // 其他费用单价
+							item_amount : ""                             // 其他费用数量
+							item_total : ""                              // 其他费用小计
+						}
+					]
+
+					total : ""         // 价格总计
+				}
+			]
+		}
 	}
+
 
 
 
