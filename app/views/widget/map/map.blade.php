@@ -5,10 +5,10 @@
       <p class="bg-success message">{{{$data['message']}}}</p>
     @endif
     <img src="{{{$data['image_url']}}}" class="img-responsive" alt="地图">
-    <form id="mapForm" action="{{{$map}}}" method="POST">
+    <form id="mapForm" action="{{{$map}}}" method="POST" enctype="multipart/form-data">
         <input type="file" name="map" class="form-control" />
         <button type="submit" class="btn btn-default">修改</button>
-      </form>
+    </form>
 </div>
 
 @section("css")
