@@ -426,15 +426,30 @@ class ShopAdminController extends BaseController {
     }
 
     /**
+     * 上传位置地图POST
+     */
+    public function mapUpload(){
+    	$user = Auth::user();
+    	$b_uid = $user->b_uid;
+    	$shop_id = $user->shop_id;
+
+    	$record = array( 'map' => Input::file('map'));
+    	$rules = array( 'map' => 'required | image | max:2048');
+    	$v = Validator::make($record, $rules);
+    	if( $v->fails() ){
+			$message         = $v->messages();	
+			$error['msg']    = $message->toArray();
+			$error['status'] = '400';
+			return $error;
+		}
+
+
+    }
+
+    /**
      * 菜单图片的上传
      */
     public function menuImageUpload(){
-    	if( !Auth::check() ){
-			return json_encode(array(
-				'status' => '400',
-				'msg'    => 'login failed'
-			));
-    	}
 		$file    = Input::file('photo');
 		$menu_id = Input::get('menu_id');
 

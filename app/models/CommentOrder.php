@@ -9,4 +9,5 @@ class CommentOrder extends Eloquent{
 
 	protected $table = 'comment_for_order';
 
+	protected $primaryKey = 'id';
 }

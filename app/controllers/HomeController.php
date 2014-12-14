@@ -19,6 +19,81 @@ class HomeController extends BaseController {
 	}
 
 	/**
+	 * 获取成功的订单
+	 * @return [type] [description]
+	 */
+	public function getSuccess(){
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('/shop_info'),
+			'success' => url('/success'),
+			'widge_success' => array()
+		);
+
+		$shop_id = Auth::user()->shop_id;
+
+		$orders = Order::where('shop_id', $shop_id)->where('state_of_shop', 3)->get();
+		$data['widge_success']['deal_count'] = count($orders);
+		$data['widge_success']['deal'] = array();
+		$shop = Shop::find($shop_id);
+		foreach($orders as $order){
+			$comment = CommentOrder::where('order_id', $order->id)->get();
+			$one = array(
+				'deal_id' => $order->id,
+				'deal_statue' => $order->state,
+				'same_again' => '##',
+				'deal_again' => '##',
+				'shop_name' => $shop->name,
+				'deal_number' => $order->number,
+				'deal_time' => date('Y-m-d', $order->ordertime),
+				'deal_phone' => $shop->linktel,
+				'deliver_address' => $order->receive_address,
+				'deliver_phone' => $order->receive_phone,
+				'deliver_remark' => $order->beta,
+				'deal_speed' => $comment[0]->speed,
+				'deal_satisfied' => $comment[0]->value,
+				'good' => array(),
+				'others' => array(array(
+					'item_name' => '不知道',
+					'item_value' => '-5',
+					'item_amount' => '1',
+					'item_total' => '0'
+				))
+			); 
+			$one['total'] = $order->total;
+			$menu_ids = array_count_values(explode(',', $order->order_menus));
+			
+			foreach($menu_ids as $menu_id => $amount){
+				$menuComment = CommentMenu::where('order_id', $order->id)
+											->where('menu_id', $menu_id)
+											->get();
+				$menu = Menu::find($menu_id);
+				//var_dump($menuComment);
+				$onemenu = array(
+					'goods_id' => $menu_id,
+					'goods_name' => $menu->title,
+					'goods_value' => $menu->price,
+					'goods_amount' => $amount,
+					'goods_total' => $amount * $menu->price,
+					'good_atisfied' => $menuComment[0]->value
+				);
+
+				array_push($one['good'], $onemenu);
+			}
+
+			array_push($data['widge_success']['deal'], $one);
+		}
+		return View::make("template.success.success")->with($data);
+
+		//var_dump($data);
+	}
+
+	/**
 	 * 获取首页图表数据
 	 */
 	public function getChart(){

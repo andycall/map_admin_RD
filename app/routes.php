@@ -153,7 +153,7 @@ Route::get("deliver", function()
 
 	return View::make("template.deliver.deliver")->with($data);
 });
-
+/*
 Route::get("success", function()
 {
 	$data = [
@@ -357,7 +357,7 @@ Route::get("success", function()
 
 	return View::make("template.success.success")->with($data);
 });
-
+*/
 
 # 商家管理主页面
 Route::get('/', function(){
@@ -381,10 +381,6 @@ Route::get('/', function(){
 	return View::make("template.main.main")->with($data);
 
 });
-
-
-
-
 
 //main 测试
 /*
@@ -484,6 +480,16 @@ Route::get('geohashGet', 'ShopController@geoHashGet');
 Route::post('register', 'UserAccessController@register');
 Route::post('login', 'UserAccessController@login');
 
+Route::get("/login", function(){
+    $data = [
+        "find_password" => "#",
+        "auth_image" => url('captcha')
+    ];
+
+    return View::make("template.login_register.login")->with($data);
+});
+
+
 # 商家的基本操作
 Route::get('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getAnnounce'));	
 Route::post('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyAnnounce')); // 修改公告
@@ -493,6 +499,8 @@ Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminCont
 Route::post('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyInfo'));	// 添加/修改店铺的基本信息
 Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGood'));		// 获取商品分类
 Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品
+Route::post('map', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@mapUpload'));	// 上传位置地图
+Route::get('success', array('before' => 'loginCheck', 'uses' => 'HomeController@getSuccess'));	// 获取成功的订单
 
 Route::post('addshop', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addShop'));	// 添加店铺
 Route::post('delmenu', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@delMenu'));          // 删除菜单
@@ -512,4 +520,3 @@ Route::filter('loginCheck', function()
 });
 
 Route::get('test/{shop_id}', 'HomeController@getChart');
-
