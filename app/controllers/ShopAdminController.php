@@ -433,8 +433,16 @@ class ShopAdminController extends BaseController {
     	$b_uid = $user->b_uid;
     	$shop_id = $user->shop_id;
 
-    	$record = array( 'map' => Input::file('map'));
-    	$rules = array( 'map' => 'required | image | max:2048');
+    	echo Input::hasFile('map');
+    	var_dump(Input::file('map'));
+    	echo '=================';
+    	var_dump(Input::get('map'));
+    	echo '---------------------';
+
+    	$record = array( 'map' => Input::file('map') );
+    	var_dump($record);
+    	echo $record['map'];
+    	$rules = array( 'map' => 'required');// | image | max:2048');
     	$v = Validator::make($record, $rules);
     	if( $v->fails() ){
 			$message         = $v->messages();	
@@ -538,7 +546,7 @@ class ShopAdminController extends BaseController {
 			//'shop_logo' => $shop->pic,
 			'type' => Input::get('shop_type'),
 			'address' => Input::get('shop_address'),
-			'deliver_price' => Input::get('price_begin'),
+			//'deliver_price' => Input::get('price_begin'),
 			'begin_time' => Input::get('deliver_begin'),
 			'operation_time' => Input::get('shop_time'),
 			'intro' => Input::get('shop_statement')
@@ -547,7 +555,7 @@ class ShopAdminController extends BaseController {
 			'name' => 'required | max:50',
 			'type' => 'required | max:45', 
 			'address' => 'required | max:255',
-			'deliver_price' => 'required | numeric',
+			//'deliver_price' => 'required | numeric',
 			'begin_time' => 'required | max:10',
 			'operation_time' => 'required | max:100',
 			'intro' => 'required | max:255'
