@@ -8,42 +8,42 @@
         <p class="bg-success message">{{$data['message']}}</p>
     @endif
 
-    <form class="form-horizontal" action="{{$shop_info}}" method="POST">
+    <form id="shopInfoForm" action="{{$shop_info}}" method="POST">
 
         <div class="form-group">
             <label for="shop_name" class="col-sm-2 control-label">商家名称：</label>
             <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_name"]}}">
+                <input type="text" class="shop_name_input form-control" name="shop_name" value="{{$widge_shop_info["shop_name"]}}">
             </div>
         </div>
         <div class="form-group">
             <label for="shop_type" class="col-sm-2 control-label">商家类型：</label>
             <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_type"]}}">
+                <input type="text" class="shop_type_input form-control" name="shop_type" value="{{$widge_shop_info["shop_type"]}}">
             </div>
         </div>
         <div class="form-group">
             <label for="shop_address" class="col-sm-2 control-label">商家地址：</label>
             <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_address"]}}">
+                <input type="text" class="shop_address_input form-control" name="shop_address" value="{{$widge_shop_info["shop_address"]}}">
             </div>
         </div>
         <div class="form-group">
             <label for="deliver_begin" class="col-sm-2 control-label">送餐开始时间：</label>
             <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["deliver_begin"]}}">
+                <input type="text" class="deliver_begin_input form-control" name="deliver_begin" value="{{$widge_shop_info["deliver_begin"]}}">
             </div>
         </div>
         <div class="form-group">
             <label for="shop_time" class="col-sm-2 control-label">商家开门时间：</label>
             <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_time"]}}">
+                <input type="text" class="shop_time_input form-control" name="shop_time" value="{{$widge_shop_info["shop_time"]}}">
             </div>
         </div>
         <div class="form-group">
             <label for="shop_statement" class="col-sm-2 control-label">商家简介：</label>
             <div class="col-sm-2">
-                <input type="text" class="min_price_input form-control" value="{{$widge_shop_info["shop_statement"]}}">
+                <input type="text" class="shop_statement_input form-control" name="shop_statement" value="{{$widge_shop_info["shop_statement"]}}">
             </div>
         </div>
         {{--<div class="form-group">--}}
