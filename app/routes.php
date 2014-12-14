@@ -358,7 +358,7 @@ Route::get("success", function()
 	return View::make("template.success.success")->with($data);
 });
 */
-
+/*
 # 商家管理主页面
 Route::get('/', function(){
 	$data = [
@@ -381,6 +381,40 @@ Route::get('/', function(){
 	return View::make("template.main.main")->with($data);
 
 });
+*/
+
+#或取待送订单信息
+Route::get('/getGoods', function(){
+    $data = [
+        "success" => true,
+
+        "deal_id"   => 456789,
+        "deal_time" => "08:45",
+        "deal_number" => 132123,
+        "deliver_address" => "重庆邮电大学17栋",
+        "deliver_phone"  => 18166387284,
+        "deliver_remark" => "小心保管",
+        "sure_href" => "http://www.baidu.com",
+
+        "goods" => [
+            [
+                "good_name" => "wjkhdkjewhd肉", // 商品名称
+                "good_value" => "12",   // 商品价格
+                "good_amount" => "20个",    // 商品数量
+                "good_total" => "100元",     // 价格总计
+            ],
+            [
+                "good_name" => "烧烤rthioyhjio", // 商品名称
+                "good_value" => "450元",   // 商品价格
+                "good_amount" => "200个",    // 商品数量
+                "good_total" => "1000元",     // 价格总计
+            ]
+        ]
+    ];
+
+    return Response::json($data);
+});
+
 
 //main 测试
 /*
@@ -463,6 +497,39 @@ Route::post("shop_info", function(){
 });
 */
 
+#dliver测试
+Route::get("/deliver_goods",function(){
+    $res = [
+        "success" => true,
+
+        "deal_id"   => 456789,
+        "deal_time" => "08:45",
+        "deal_number" => 132123,
+        "deliver_address" => "重庆邮电大学17栋",
+        "deliver_phone"  => 18166387284,
+        "deliver_remark" => "小心保管",
+        "sure_href" => "http://www.baidu.com",
+
+        "goods" => [
+            [
+                "good_name" => "wjkhdkjewhd肉", // 商品名称
+                "good_value" => "12",   // 商品价格
+                "good_amount" => "20个",    // 商品数量
+                "good_total" => "100元",     // 价格总计
+            ],
+            [
+                "good_name" => "烧烤rthioyhjio", // 商品名称
+                "good_value" => "450元",   // 商品价格
+                "good_amount" => "200个",    // 商品数量
+                "good_total" => "103460元",     // 价格总计
+            ]
+        ]
+    ];
+
+    return Response::json($res);
+});
+
+
 Route::post("map", function(){
     return Redirect::to('/map')->with('mapMsg', '成功!');
 });
@@ -471,7 +538,7 @@ Route::post("map", function(){
 
 
 # 商家管理主页面
-Route::get('admin/{shop_id}', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));	// 商家店铺管理页面
+Route::get('/', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));
 Route::post('goodsChart', array('before' => 'loginCheck', 'uses' => 'HomeController@getChart'));	// 获取图表
 
 # 登录与注册
@@ -479,7 +546,18 @@ Route::get('geohashSet', 'ShopController@geoHashSet');
 Route::get('geohashGet', 'ShopController@geoHashGet');
 Route::post('register', 'UserAccessController@register');
 Route::post('login', 'UserAccessController@login');
+Route::post('registerAjax', 'UserAccessController@register');
+Route::post('loginAjax','UserAccessController@login');
+Route::get('logout','UserAccessController@logout');                      // 退出登录
 
+Route::get("/register", function(){
+    $data = [
+        "auth_image" => "http://t11.baidu.com/it/u=254287606,1076184673&fm=58"        //验证码
+    ];
+
+    return View::make("template.login_register.register")->with($data);
+
+});
 Route::get("/login", function(){
     $data = [
         "find_password" => "#",
@@ -501,6 +579,8 @@ Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminControlle
 Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品
 Route::post('map', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@mapUpload'));	// 上传位置地图
 Route::get('success', array('before' => 'loginCheck', 'uses' => 'HomeController@getSuccess'));	// 获取成功的订单
+Route::get('getGoods', array('before' => 'loginCheck', 'uses' => 'HomeController@getGoods'));	// 获取代送订单信息
+
 
 Route::post('addshop', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addShop'));	// 添加店铺
 Route::post('delmenu', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@delMenu'));          // 删除菜单

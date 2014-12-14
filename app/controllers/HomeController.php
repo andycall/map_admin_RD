@@ -8,14 +8,36 @@ class HomeController extends BaseController {
 	 * 商家管理首页
 	 */
 	public function index(){
+
 		$shop = Shop::find(Auth::user()->shop_id);
 
-		$output['shop_name'] = $shop->name;
-		$output['shop_logo'] = $shop->pic;
-		$output['shop_type'] = $shop->type;
-		$output['shop_address'] = $shop->address;
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('/shop_info'),
+			'success' => url('/success'),
+			'widge_main' => array(
+				'shop_name' => $shop->name,
+				'shop_logo' => $shop->pic,
+				'shop_type' => $shop->type,
+				'shop_address' => $shop->address
+			)
+		);
+		//var_dump($data);
+		return View::make("template.main.main")->with($data);
+	}
 
-		return $output;
+	/**
+	 * 获取代送订单信息
+	 */
+	public function getGoods(){
+		$data = array(
+
+		);
 	}
 
 	/**
@@ -98,7 +120,6 @@ class HomeController extends BaseController {
 	 */
 	public function getChart(){
 		$shop_id = Auth::user()->shop_id;
-
 		$output = array(
 			'success' => 'true',
 			'state' => 200,
@@ -111,6 +132,7 @@ class HomeController extends BaseController {
 		$output['data']['goods'] = array();
 
 		$menus = Shop::find($shop_id)->menus;
+		
 		foreach($menus as $menu){
 			$key = 'laravel:menu:'.$menu->id.':sold:month';
 
@@ -120,7 +142,6 @@ class HomeController extends BaseController {
 				'goods_sails' => Redis::lrange($key, 0, 5)
 			));
 		}
-		//var_dump($output);
 		return Response::json($output);
 	}
 

@@ -147,7 +147,7 @@ url  : ""
 
 
 ### 获取待送订单信息
-
+   url: "deliver_goods"
 	type : "get"
 	second : "" // 轮询间隔  1s
 	output : {

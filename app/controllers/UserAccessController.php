@@ -47,16 +47,32 @@ class UserAccessController extends BaseController{
     //登录接口
     public function login(){
 
-        $account = Input::get('account');
-        $password = Input::get('password');
+        if(Auth::check()){
+            echo json_encode(array(
+                'succcess'=>false,
+                'state'=>200,
+                'errMsg'=>array(
+                    'inputMsg'=>'该用户已登录，请不要重复登录'
+                ),
+                'no'=>2
+            ));
+            exit;
+        }
+
+        $account = Input::get('user_email');
+        $password = Input::get('user_psw');
 
         $accountCheck = $this->accountCheck($account);
         if(!is_object($accountCheck)){
             echo json_encode(array(
-                'status'=>400,
-                'msg'=>'账户不存在'
+                'acccount' => $account,
+                'success'=>false,
+                'state'=>200,
+                'errMsg'=>array(
+                    'inputMsg'=>'用户不存在'
+                ),
+                'no'=>1
             ));
-
             exit();
         }
 
@@ -64,11 +80,30 @@ class UserAccessController extends BaseController{
 
         if($passwordCheck){
             Auth::login($accountCheck);
+        }else{
+            echo json_encode(array(
+                'succcess'=>false,
+                'state'=>200,
+                'errMsg'=>array(
+                    'inputMsg'=>'密码验证失败'
+                ),
+                'no'=>2
+            ));
         }
 
-        var_dump(Auth::user()->email);
+       echo json_encode(array(
+            'success'=>true,
+            'state'=>200,
+            'nextSrc'=>url('/'),
+       ));
 
+    }
 
+    //退出接口
+    public function logout(){
+        Auth::logout();
+
+        return Redirect::to('login');
     }
 
     //账号查询,支持邮箱和手机
