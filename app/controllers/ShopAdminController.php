@@ -433,16 +433,8 @@ class ShopAdminController extends BaseController {
     	$b_uid = $user->b_uid;
     	$shop_id = $user->shop_id;
 
-    	echo Input::hasFile('map');
-    	var_dump(Input::file('map'));
-    	echo '=================';
-    	var_dump(Input::get('map'));
-    	echo '---------------------';
-
     	$record = array( 'map' => Input::file('map') );
-    	var_dump($record);
-    	echo $record['map'];
-    	$rules = array( 'map' => 'required');// | image | max:2048');
+    	$rules = array( 'map' => 'required | image | max:2048');
     	$v = Validator::make($record, $rules);
     	if( $v->fails() ){
 			$message         = $v->messages();	
@@ -451,7 +443,34 @@ class ShopAdminController extends BaseController {
 			return $error;
 		}
 
+		$file = $record['map'];
+		$filename = $file->getClientOriginalName();	// 获取初始文件名
+		$typeName = $file->getClientOriginalExtension();	// 获取文件后缀名
+		$newFileName = $this->fileNameMake($filename, $typeName);
+		$directoryName = $b_uid%100;//根据用户id和100的模值，生成对应存储目录地址
+		$savePath      = public_path().'/uploads/businessUser/'.$directoryName.'/shopmap';
+		
+		$fileSave      = $file -> move($savePath,$newFileName);
 
+        if($fileSave){
+        	$pic = asset('uploads/businessUser/'.$directoryName.'/shopmap/'.$newFileName);
+        	if( Menu::where('id', $menu_id)->update(array('pic' => $pic)) ){
+        		echo json_encode(array(
+					'status' => '200',
+					'msg'    => 'upload finished'
+        		));
+        	}else{
+        		echo json_encode(array(
+					'status' => '400',
+					'msg'    => 'save failed'
+        		));
+        	}
+        }else{
+        	echo json_encode(array(
+				'status' => '400',
+				'msg'    => 'move failed'
+        	));
+        }
     }
 
     /**

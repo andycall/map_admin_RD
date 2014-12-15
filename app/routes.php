@@ -590,6 +590,15 @@ Route::post('logoUpload', array('before' => 'loginCheck', 'uses' => 'ShopAdminCo
 Route::post('menuImageUpload', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@menuImageUpload'));	// 菜单图片上传
 Route::get('getshoplogo', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopLogo'));	// 添加活动之后获取图片
 
+# 验证码
+Route::post("/sms_auth",function(){
+    $data = [
+        'success' => true
+    ];
+
+    return Response::json($data);
+});
+
 #登录验证
 Route::filter('loginCheck', function()
 {
