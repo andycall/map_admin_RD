@@ -1,38 +1,39 @@
 <?php
 
-/*
-# 模板测试
-Route::get("shop_info", function()
-{
-	$data = [
-		"main"   => url("/"),
-		"announce" => url("/announce"),
-		"category" => url("/category"),
-		"deliver"  => url("/deliver"),
-		"good"     => url("/good"),
-		"map"      => url("/map"),
-		"shop_info" => url("/shop_info"),
-		"success"  => url("/success"),
-		"widge_shop_info" => [
-			"shop_name" => "大盘鸡", // 商家名称
-			"shop_logo" => "", // 商家logo
-			"shop_type" => "中式", // 商家类型
-			"shop_address" => "堕落街", // 商家地址
-			"price_begin" => "58", // 起送价
-			"deliver_begin" => "6；00", // 送餐开始时间
-			"shop_time" => "09:50 - 13:30 / 16:00 - 19:30", // 商家开门时间. 单输入框
-			"shop_statement" => "大盘鸡，就是好吃", // 商家简介
-			"shop_open" => "12：00", // 开门时间
-			"shop_close" => "8：00" // 关门时间
-		],
-		"data" => [
-			"message" => Session::get('infoMsg')
-		]
-	];
 
-	return View::make("template.shop_info.shop_info")->with($data);
-});
-*/
+# 模板测试
+//Route::get("shop_info", function()
+//{
+//	$data = [
+//		"main"   => url("/"),
+//		"announce" => url("/announce"),
+//		"category" => url("/category"),
+//		"deliver"  => url("/deliver"),
+//		"good"     => url("/good"),
+//		"map"      => url("/map"),
+//		"shop_info" => url("/shop_info"),
+//		"success"  => url("/success"),
+//		"widge_shop_info" => [
+//			"shop_img" => "http://www.baidu.com/img/baidu_jgylogo3.gif",
+//			"shop_name" => "大盘鸡", // 商家名称
+//			"shop_logo" => "", // 商家logo
+//			"shop_type" => "中式", // 商家类型
+//			"shop_address" => "堕落街", // 商家地址
+//			"price_begin" => "58", // 起送价
+//			"deliver_begin" => "6；00", // 送餐开始时间
+//			"shop_time" => "09:50 - 13:30 / 16:00 - 19:30", // 商家开门时间. 单输入框
+//			"shop_statement" => "大盘鸡，就是好吃", // 商家简介
+//			"shop_open" => "12：00", // 开门时间
+//			"shop_close" => "8：00" // 关门时间
+//		],
+//		"data" => [
+//			"message" => Session::get('infoMsg')
+//		]
+//	];
+//
+//	return View::make("template.shop_info.shop_info")->with($data);
+//});
+
 /*
 Route::get("announce", function()
 {
@@ -572,7 +573,7 @@ Route::get('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminContr
 Route::post('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyAnnounce')); // 修改公告
 Route::get('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGroup'));
 Route::post('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addGroup'));		// 添加分组/分类
-Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopInfo'));	// 获取店铺基本信息
+//Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopInfo'));	// 获取店铺基本信息
 Route::post('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyInfo'));	// 添加/修改店铺的基本信息
 Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGood'));		// 获取商品分类
 Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品

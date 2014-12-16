@@ -9,7 +9,12 @@
     @endif
 
     <form id="shopInfoForm" action="{{$shop_info}}" method="POST">
-
+        <div class="form-group">
+            <label for="shop_name" class="col-sm-2 control-label">商家头像：</label>
+            <div class="col-sm-2">
+                <div class="avatar"><img src="{{$widge_shop_info["shop_img"]}}" alt=""/><span id="upload_btn"></span></div>
+            </div>
+        </div>
         <div class="form-group">
             <label for="shop_name" class="col-sm-2 control-label">商家名称：</label>
             <div class="col-sm-2">
@@ -34,11 +39,12 @@
                 <input type="text" class="deliver_begin_input form-control" name="deliver_begin" value="{{$widge_shop_info["deliver_begin"]}}">
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group shop_time">
             <label for="shop_time" class="col-sm-2 control-label">商家开门时间：</label>
             <div class="col-sm-2">
-                <input type="text" class="shop_time_input form-control" name="shop_time" value="{{$widge_shop_info["shop_time"]}}">
+                <input type="text" class="shop_time_input form-control" name="shop_time" placeholder="eg.09:50 - 13:30 / 16:00 - 19:30" value="{{$widge_shop_info["shop_time"]}}" >
             </div>
+            <div class="error bg-danger">请输入符合该样式的时间：09:50 - 13:30 / 16:00 - 19:30</div>
         </div>
         <div class="form-group">
             <label for="shop_statement" class="col-sm-2 control-label">商家简介：</label>
