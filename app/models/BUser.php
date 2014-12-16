@@ -17,6 +17,8 @@ class BUser extends Eloquent implements UserInterface, RemindableInterface{
 
     protected $primaryKey = 'b_uid';
 
+    protected $fillable = array('uid', 'shop_id', 'email', 'mobile', 'email_passed', 'mobile_passed');
+
     public $timestamps = false;
 
     public function user()

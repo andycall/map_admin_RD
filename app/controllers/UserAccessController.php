@@ -8,10 +8,10 @@ class UserAccessController extends BaseController{
 
     public function register(){
 
-        $mobile = Input::get('mobile');
-        $email = Input::get('email');
+        $mobile = Input::get('user_phone');
+        $email = Input::get('user_email');
 
-        $password = Input::get('password');
+        $password = Input::get('user_psw');
         //对密码进行hash加密
         $password = Hash::make($password);
 
@@ -23,14 +23,14 @@ class UserAccessController extends BaseController{
         $user->user_type = 'business';
         $user->add_time = time();
 
-
         if($user->save()){
             $uid = $user->uid;
         }else{
             echo "user base Error";
-            exit;
         }
 
+
+        # 建business用户
         $Buser = new BUser();
         $Buser->uid = $uid;
         $Buser->email = $email;
@@ -40,7 +40,24 @@ class UserAccessController extends BaseController{
 
         if($Buser->save()){
             echo "ok";
+
         }
+
+        # 建店铺
+        $shop = new Shop();
+        $shop->b_uid = $Buser->b_uid;
+        $shop->addtime = time();
+         
+        if( $shop->save() ){
+            $Buser->update(array('shop_id' => $shop->id));
+            Auth::login($Buser);
+            echo 'hehe';
+            //return Response::make();
+            //return Redirect::to('/', 302);
+//            var_dump(Redirect::to('/'));
+           // return Redirect::to('/');
+        }
+       
     }
 
 

@@ -538,7 +538,8 @@ Route::post("map", function(){
 
 
 # 商家管理主页面
-Route::get('/', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));
+Route::get('/', 'HomeController@index');
+//Route::get('/', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));
 Route::post('goodsChart', array('before' => 'loginCheck', 'uses' => 'HomeController@getChart'));	// 获取图表
 
 # 登录与注册
