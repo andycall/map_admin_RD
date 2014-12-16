@@ -25,10 +25,10 @@ class UserAccessController extends BaseController{
 
         if($user->save()){
             $uid = $user->uid;
+            echo 'uid'.$uid;
         }else{
             echo "user base Error";
         }
-
 
         # 建business用户
         $Buser = new BUser();
@@ -40,7 +40,6 @@ class UserAccessController extends BaseController{
 
         if($Buser->save()){
             echo "ok";
-
         }
 
         # 建店铺

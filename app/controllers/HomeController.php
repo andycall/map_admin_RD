@@ -8,8 +8,7 @@ class HomeController extends BaseController {
 	 * 商家管理首页
 	 */
 	public function index(){
-		echo 'hehe';
-		/*
+		
 		$shop = Shop::find(Auth::user()->shop_id);
 
 		$data = array(
@@ -30,7 +29,7 @@ class HomeController extends BaseController {
 		);
 		//var_dump($data);
 		return View::make("template.main.main")->with($data);
-		*/
+		
 	}
 
 	/**

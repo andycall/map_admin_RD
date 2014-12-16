@@ -451,10 +451,12 @@ class ShopAdminController extends BaseController {
 		$savePath      = public_path().'/uploads/businessUser/'.$directoryName.'/shopmap';
 		
 		$fileSave      = $file -> move($savePath,$newFileName);
-
+		echo $savePath;
+		echo $newFileName;
         if($fileSave){
         	$pic = asset('uploads/businessUser/'.$directoryName.'/shopmap/'.$newFileName);
-        	if( Menu::where('id', $menu_id)->update(array('pic' => $pic)) ){
+
+        	if( Shop::find($shop_id)->update(array('map' => $file)) ){
         		echo json_encode(array(
 					'status' => '200',
 					'msg'    => 'upload finished'

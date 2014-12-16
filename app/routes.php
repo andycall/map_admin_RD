@@ -529,17 +529,15 @@ Route::get("/deliver_goods",function(){
     return Response::json($res);
 });
 
-
+/*
 Route::post("map", function(){
     return Redirect::to('/map')->with('mapMsg', '成功!');
 });
-
-
+*/
 
 
 # 商家管理主页面
-Route::get('/', 'HomeController@index');
-//Route::get('/', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));
+Route::get('/', array('before' => 'loginCheck', 'uses' => 'HomeController@index'));
 Route::post('goodsChart', array('before' => 'loginCheck', 'uses' => 'HomeController@getChart'));	// 获取图表
 
 # 登录与注册
