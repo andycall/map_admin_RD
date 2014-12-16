@@ -10,7 +10,7 @@ class Shop extends Eloquent{
 
 	protected $table = 'shop';
 
-	protected $fillable = array('b_uid', 'name', 'addtime', 'address', 'intro', 'pic', 'linkname', 'tel', 'ticket', 'interval', 'begin_price', 'deliver_price', 'operation_time', 'begin_time', 'type', 'reserve', 'support_activity', 'is_online', 'announcement');
+	protected $fillable = array('b_uid', 'name', 'addtime', 'address', 'intro', 'pic', 'linkname', 'tel', 'ticket', 'interval', 'begin_price', 'deliver_price', 'operation_time', 'begin_time', 'type', 'reserve', 'support_activity', 'is_online', 'announcement', 'map');
 
     public function geohash()
     {

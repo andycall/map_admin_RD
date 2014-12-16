@@ -426,6 +426,27 @@ class ShopAdminController extends BaseController {
     }
 
     /**
+     * 地图上传页面
+     */
+    public function mapPage(){
+		$data = array(
+			'main' => url('/'),
+			'announce' => url('/announce'),
+			'category' => url('/category'),
+			'deliver' => url('/deliver'),
+			'good' => url('/good'),
+			'map' => url('/map'),
+			'shop_info' => url('/shop_info'),
+			'success' => url('success'),
+			'data' => array(
+				'image_url' => Session::get('image_url'),
+				'message' => Sessioni::get('mapMsg')
+			)
+		);
+		return View::make("template.map.map")->with($data);
+    }
+
+    /**
      * 上传位置地图POST
      */
     public function mapUpload(){
@@ -451,16 +472,15 @@ class ShopAdminController extends BaseController {
 		$savePath      = public_path().'/uploads/businessUser/'.$directoryName.'/shopmap';
 		
 		$fileSave      = $file -> move($savePath,$newFileName);
-		echo $savePath;
-		echo $newFileName;
         if($fileSave){
         	$pic = asset('uploads/businessUser/'.$directoryName.'/shopmap/'.$newFileName);
-
-        	if( Shop::find($shop_id)->update(array('map' => $file)) ){
+        	var_dump($pic);
+        	if( Shop::find($shop_id)->update(array('map' => $pic)) ){
         		echo json_encode(array(
 					'status' => '200',
 					'msg'    => 'upload finished'
         		));
+        		return Redirect::to('/map')->with('mapMsg', '成功!')->with('image_url', $pic);
         	}else{
         		echo json_encode(array(
 					'status' => '400',
