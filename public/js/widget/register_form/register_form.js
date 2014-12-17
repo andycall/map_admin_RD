@@ -22,22 +22,29 @@ define([ "jquery", "register/port", "registerPort" ], function($, port, register
         //先隐藏原来的errtip
         $(".u-error-tip").hide();
         //normal err tip
-        var $errPwd = $divUserPwd.find(".u-error-tip"), $errMobile = $divUserMobile.find(".u-error-tip"), $errRePwd = $divUserRePwd.find(".u-error-tip"), $errAuth = $divAuth.find(".u-error-tip"), $errEmail = $divUserEmail.find(".u-error-tip"), regEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/, //邮箱验证
+        var $errPwd = $divUserPwd.find(".u-error-tip"), $errMobile = $divUserMobile.find(".u-error-tip"), $errRePwd = $divUserRePwd.find(".u-error-tip"), $errAuth = $divAuth.find(".u-error-tip"), $errEmail = $divUserEmail.find(".u-error-tip");
+        $errAdd = $divAdd.find(".u-error-tip");
+        //验证正则
+        var regEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/, //邮箱验证
         regAuth = /^[a-z0-9A-Z]+$/, //验证码 0-9，a-z
         regTel = /^[\d]{11}$/, //电话号码目前仅支持11位
         regPwd = /^[\w]{6,20}$/;
+        //密码 大于六位 0-9a-zA-Z_
+        //console.log(data.user_phone);
         //验证电话号码
         //密码 大于六位 0-9a-zA-Z_
+        //console.log(data.user_phone);
         //验证电话号码
         //验证邮箱
         //验证验证密码
         //验证验证密码是否相同
+        //验证是否填写商家地址
         //验证码
-        return console.log(data.user_phone), regTel.test(data.user_phone) ? ($errMobile.hide(), 
-        regEmail.test(data.user_email) ? ($errEmail.hide(), regPwd.test(data.user_psw) ? ($errPwd.hide(), 
-        data.user_psw != $divUserRePwd.find("input").val() ? ($errRePwd.show(), !1) : ($errRePwd.hide(), 
-        regAuth.test(data.user_auth) ? ($errAuth.hide(), !0) : ($errAuth.show(), !1))) : ($errPwd.show(), 
-        !1)) : ($errEmail.show(), !1)) : ($errMobile.show(), !1);
+        return regTel.test(data.user_phone) ? ($errMobile.hide(), regEmail.test(data.user_email) ? ($errEmail.hide(), 
+        regPwd.test(data.user_psw) ? ($errPwd.hide(), data.user_psw != $divUserRePwd.find("input").val() ? ($errRePwd.show(), 
+        !1) : ($errRePwd.hide(), data.user_add ? ($errAdd.hide(), regAuth.test(data.user_auth) ? ($errAuth.hide(), 
+        !0) : ($errAuth.show(), !1)) : ($errAdd.show(), !1))) : ($errPwd.show(), !1)) : ($errEmail.show(), 
+        !1)) : ($errMobile.show(), !1);
     }
     //ajax
     function ajaxForm(data) {
@@ -52,7 +59,11 @@ define([ "jquery", "register/port", "registerPort" ], function($, port, register
                 } catch (err) {
                     return void alert("服务器异常，稍后再试");
                 }
+<<<<<<< HEAD
                 if ("true" == String(res.success)) alert("注册成功"), location.href = registerPort.jump_port; else if (res.no || res.no >= 1 && res.no <= 4) //填写错误
+=======
+                if ("true" == String(res.success)) location.href = registerPort.jump_port; else if (res.no || res.no >= 1 && res.no <= 5) //填写错误
+>>>>>>> 3fc68d3d7c47b927d64b49e2d4dee2885725a509
                 switch (res.no) {
                   //邮箱错误
                     case 1:
@@ -71,8 +82,13 @@ define([ "jquery", "register/port", "registerPort" ], function($, port, register
                     }();
                     break;
 
-                  //验证码错误
+                  //商家页面错误
                     case 4:
+                    showInputError($divAdd, res.errMsg.inputMsg);
+                    break;
+
+                  //验证码错误
+                    case 5:
                     !function() {
                         "normal" == loginWay ? showInputError($divAuth1, res.errMsg.inputMsg) : "mobile" == loginWay && showInputError($divAuth2, res.errMsg.inputMsg);
                     }();
@@ -103,7 +119,7 @@ define([ "jquery", "register/port", "registerPort" ], function($, port, register
     $("#register-form input").on("focus", function() {
         $(".u-error-tip").hide();
     });
-    var $divUserMobile = $("#register-user-mobile"), $divUserPwd = $("#user-pwd"), $divUserRePwd = $("#user-re-pwd"), $divUserEmail = $("#register-user-email"), $divAuth = $("#register-user-auth");
+    var $divUserMobile = $("#register-user-mobile"), $divUserPwd = $("#user-pwd"), $divUserRePwd = $("#user-re-pwd"), $divUserEmail = $("#register-user-email"), $divAdd = $("#user-add"), $divAuth = $("#register-user-auth");
     //提交表单
     $("#register-form").on("submit", function(ev) {
         ev.preventDefault();
@@ -114,6 +130,8 @@ define([ "jquery", "register/port", "registerPort" ], function($, port, register
             //密码
             user_email: $divUserEmail.find("input").val(),
             //邮箱
+            user_add: $divAdd.find("input").val(),
+            //商家地址
             user_auth: $divAuth.find("input").val()
         };
         return checkRegister(data) ? (ajaxForm(data), !1) : !1;

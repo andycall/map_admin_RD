@@ -34,6 +34,12 @@
 			<div class="u-error-tip f-dn">两次密码输入不一样</div>
 		</div>
 
+		{{-- 商家地址 --}}
+		<div class="u-input-item" id="user-add">
+			<input type="text" name="user-add" id="user-add" class="user-add box f-pr" placeholder="商家地址" required>
+			<div class="u-error-tip f-dn">请输入商家地址</div>
+		</div>
+
 		{{-- 验证码 --}}
         <div id="register-user-auth" class="u-input-item">
 		    <input id="verify-code-input" class="box register-captcha" name="code" type="text" placeholder="短信验证码" minlength="6" maxlength="6" autocomplete="off" required="" id="login-user-auth2">
