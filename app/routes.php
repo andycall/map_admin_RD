@@ -573,7 +573,7 @@ Route::get('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminContr
 Route::post('announce', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyAnnounce')); // 修改公告
 Route::get('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGroup'));
 Route::post('category', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addGroup'));		// 添加分组/分类
-//Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopInfo'));	// 获取店铺基本信息
+Route::get('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getShopInfo'));	// 获取店铺基本信息
 Route::post('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@modifyInfo'));	// 添加/修改店铺的基本信息
 Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGood'));		// 获取商品分类
 Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品
