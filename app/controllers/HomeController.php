@@ -21,6 +21,7 @@ class HomeController extends BaseController {
 			'shop_info' => url('/shop_info'),
 			'success' => url('/success'),
 			'widge_main' => array(
+				'shop_img' => $shop->pic,
 				'shop_name' => $shop->name,
 				'shop_logo' => $shop->pic,
 				'shop_type' => $shop->type,

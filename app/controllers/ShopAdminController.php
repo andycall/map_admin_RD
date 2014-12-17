@@ -314,6 +314,7 @@ class ShopAdminController extends BaseController {
 	public function getShopInfo(){
 		$shop = Shop::find(Auth::user()->shop_id);
 		$info = array(
+			'shop_img' => $shop->pic,
 			'shop_name' => $shop->name,
 			'shop_logo' => $shop->pic,
 			'shop_type' => $shop->type,
