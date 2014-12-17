@@ -95,27 +95,25 @@ class ShopAdminController extends BaseController {
 		$user = Auth::user();
 
 		$record = array(
-			'b_uid'         => 4,		// 这个应该由Auth获得
-			'shop_id'       => Input::get('shop_id'),
-			'group_id'      => Input::get('classify_id'),
+			//'b_uid'         => //4,		// 这个应该由Auth获得
+			'shop_id'       => $user->shop_id,
+			'group_id'      => Input::get('style'),
 			'title'	        => Input::get('title'),
 			'price'         => Input::get('price'),
-			'orignal_price' => Input::get('orignal_price'),
-			'pic'           => Input::file('pic'),
-			'state'         => Input::get('state')
+			//'orignal_price' => //Input::get('orignal_price'),
+			//'pic'           => //Input::file('pic'),
+			//'state'         => //Input::get('state')
 		);
 
-		$record['pic_small'] = 'wahgoih';
-
 		$rules = array(
-			'b_uid'          => 'required | integer | exists:business_user,b_uid',
+			//'b_uid'          => 'required | integer | exists:business_user,b_uid',
 			'shop_id'        => 'required | integer | exists:shop,id',
 			'group_id'       => 'required | integer | exists:menu_group,id',
 			'title'          => 'required | between:1,100',
 			'price'          => 'required | numeric',
-			'original_price' => 'numeric',				// 原价，可不用
-			'pic'            => 'image | max:2048',		// 菜单的图片，可不用
-			'state'          => 'digits:1'
+			//'original_price' => 'numeric',				// 原价，可不用
+			//'pic'            => 'image | max:2048',		// 菜单的图片，可不用
+			//'state'          => 'digits:1'
 		);
 		$v = Validator::make($record, $rules);
 		if( $v->fails() ){
@@ -124,11 +122,10 @@ class ShopAdminController extends BaseController {
 			$error['status'] = '400';
 			return $error;
 		}
-		array_shift($record);
 
 		$menu = new Menu($record);
 		if( $menu->save() ){			// 成功后返回的是分类列表
-			return $this->getCategory();
+			return Redirect::to('/good')->with('goodMsg', '添加成功!');
 		}else{
 			return json_encode(array(
 				'status' => '400',
@@ -136,9 +133,8 @@ class ShopAdminController extends BaseController {
 			));
 		}
 
-
-		    return Redirect::to('/good')->with('goodMsg', '添加成功!');
-
+		//var_dump($menu);
+		
 	}
 
 	/**
@@ -439,8 +435,8 @@ class ShopAdminController extends BaseController {
 			'shop_info' => url('/shop_info'),
 			'success' => url('success'),
 			'data' => array(
-				'image_url' => Session::get('image_url'),
-				'message' => Sessioni::get('mapMsg')
+				'image_url' => "http://www.baidu.com/img/bd_logo1.png",
+				'message' => Session::get('mapMsg')
 			)
 		);
 		return View::make("template.map.map")->with($data);

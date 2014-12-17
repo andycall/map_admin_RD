@@ -117,7 +117,7 @@ Route::get("good", function()
 	return View::make("template.good.good")->with($data);
 });
 */
-
+/*
 Route::get("map", function()
 {
 	$data = [
@@ -137,7 +137,7 @@ Route::get("map", function()
 
 	return View::make("template.map.map")->with($data);
 });
-
+*/
 Route::get("deliver", function()
 {
 	$data = [
@@ -382,7 +382,7 @@ Route::get('/', function(){
 
 });
 */
-
+/*
 #或取待送订单信息
 Route::get('/getGoods', function(){
     $data = [
@@ -414,7 +414,7 @@ Route::get('/getGoods', function(){
 
     return Response::json($data);
 });
-
+*/
 
 //main 测试
 /*
@@ -496,7 +496,7 @@ Route::post("shop_info", function(){
 	return Redirect::to('/shop_info')->with('infoMsg', '修改基本信息!');
 });
 */
-
+/*
 #dliver测试
 Route::get("/deliver_goods",function(){
     $res = [
@@ -528,7 +528,7 @@ Route::get("/deliver_goods",function(){
 
     return Response::json($res);
 });
-
+*/
 /*
 Route::post("map", function(){
     return Redirect::to('/map')->with('mapMsg', '成功!');
@@ -577,8 +577,11 @@ Route::post('shop_info', array('before' => 'loginCheck', 'uses' => 'ShopAdminCon
 Route::get('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@getGood'));		// 获取商品分类
 Route::post('good', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addMenu'));	// 添加商品
 Route::post('map', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@mapUpload'));	// 上传位置地图
+Route::get('map', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@mapPage'));	// 图片上传的地方
 Route::get('success', array('before' => 'loginCheck', 'uses' => 'HomeController@getSuccess'));	// 获取成功的订单
-Route::get('getGoods', array('before' => 'loginCheck', 'uses' => 'HomeController@getGoods'));	// 获取代送订单信息
+//Route::get('getGoods', array('before' => 'loginCheck', 'uses' => 'HomeController@getGoods'));	// 获取代送订单信息
+Route::get('deliver_goods', array('before' => 'loginCheck', 'uses' => 'HomeController@getGoods'));	// 这两个接口有啥子不同
+Route::get('confirmOrder', array('before' => 'loginCheck', 'uses' => 'HomeController@confirmOrder'));	// 确认订单
 
 
 Route::post('addshop', array('before' => 'loginCheck', 'uses' => 'ShopAdminController@addShop'));	// 添加店铺

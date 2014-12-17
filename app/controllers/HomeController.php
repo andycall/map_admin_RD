@@ -36,9 +36,39 @@ class HomeController extends BaseController {
 	 * 获取代送订单信息
 	 */
 	public function getGoods(){
+		$order = Order::where('state_of_shop', 2)->first();	// 前段要求只要一个
+		
 		$data = array(
-
+			'success' => true,
+			'deal_id' => $order->id,
+			'deal_time' => date('Y-m-d', $order->ordertime),
+			'deal_number' => $order->number,
+			'deliver_address' => $order->receive_address,
+			'deliver_phone' => $order->receive_phone,
+			'deliver_remark' => $order->beta,
+			'sure_href' => url('confirmOrder'),	// 确认订单
+			'goods' => array()
 		);
+		$menu_ids = array_count_values(explode(',', $order->order_menus));
+		foreach($menu_ids as $menu_id => $amount){
+			$good = Menu::find($menu_id);
+			array_push($data['goods'], array(
+				'good_name' => $good->title,
+				'good_value' => $good->price,
+				'good_amount' => $amount,
+				'good_total' => $good->price * $amount
+			));
+		}
+
+		//var_dump($data);
+		return Response::json($data);
+	}
+
+	/**
+	 * 确认订单
+	 */
+	public function confirmOrder(){
+		echo 'hehe';
 	}
 
 	/**
@@ -64,8 +94,10 @@ class HomeController extends BaseController {
 		$data['widge_success']['deal_count'] = count($orders);
 		$data['widge_success']['deal'] = array();
 		$shop = Shop::find($shop_id);
+
 		foreach($orders as $order){
 			$comment = CommentOrder::where('order_id', $order->id)->get();
+			
 			$one = array(
 				'deal_id' => $order->id,
 				'deal_statue' => $order->state,
@@ -78,8 +110,8 @@ class HomeController extends BaseController {
 				'deliver_address' => $order->receive_address,
 				'deliver_phone' => $order->receive_phone,
 				'deliver_remark' => $order->beta,
-				'deal_speed' => $comment[0]->speed,
-				'deal_satisfied' => $comment[0]->value,
+				'deal_speed' => isset($comment[0]) ? $comment[0]->speed : 0,
+				'deal_satisfied' => isset($comment[0]) ? $comment[0]->value : 0,
 				'good' => array(),
 				'others' => array(array(
 					'item_name' => '不知道',
@@ -103,12 +135,12 @@ class HomeController extends BaseController {
 					'goods_value' => $menu->price,
 					'goods_amount' => $amount,
 					'goods_total' => $amount * $menu->price,
-					'good_atisfied' => $menuComment[0]->value
+					'good_atisfied' => isset($menuComment[0]) ? $menuComment[0]->value : 0
 				);
 
 				array_push($one['good'], $onemenu);
 			}
-
+			
 			array_push($data['widge_success']['deal'], $one);
 		}
 		return View::make("template.success.success")->with($data);

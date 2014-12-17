@@ -51,11 +51,10 @@ class UserAccessController extends BaseController{
             $Buser->update(array('shop_id' => $shop->id));
             Auth::login($Buser);
             echo 'hehe';
-            //return Response::make();
-            //return Redirect::to('/', 302);
-//            var_dump(Redirect::to('/'));
-           // return Redirect::to('/');
         }
+
+        # 建geohash   (shop_id, b_uid, x, y, geohash, update_time)
+        
        
     }
 

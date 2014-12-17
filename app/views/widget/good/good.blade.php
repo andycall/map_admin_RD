@@ -12,14 +12,14 @@
       <div class="form-group">
         <label for="good_name" class="col-sm-2 control-label">商品名称：</label>
         <div class="col-sm-2">
-          <input type="text" class="min_price_input form-control" value="">
+          <input type="text" class="min_price_input form-control" value="" name="title">
         </div>
       </div>
 
       <div class="form-group">
         <label for="good_price" class="col-sm-2 control-label">商品价格：</label>
         <div class="col-sm-2">
-          <input type="text" class="min_price_input form-control" value="">
+          <input type="text" class="min_price_input form-control" value="" name="price">
         </div>
       </div>
 
