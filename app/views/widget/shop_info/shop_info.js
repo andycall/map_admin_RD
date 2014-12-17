@@ -36,7 +36,7 @@ define(['jquery', 'bootstrap', 'jquery.uploadify'], function(){
 		'fileTypeDesc': 'person image',                 //文件描述
 		'fileTypeExts': '*.gif; *.jpg; *.png; *.bmp',  //上传的文件后缀过滤器
 		'onQueueComplete': function (event, data) {    //所有队列完成后事件
-
+			history.go(0);
 		},
 		'onUploadError': function (event, queueId, fileObj, errorObj) {
 			alert(errorObj.type + "：" + errorObj.info);
