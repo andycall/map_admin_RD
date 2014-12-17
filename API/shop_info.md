@@ -50,6 +50,7 @@
 
 	type : "form"
 	input : {
+		shop_img : "" //商家logo地址
 		shop_name : "" // 商家名称
 		shop_logo : "" // 商家logo
 		shop_type : "" // 商家类型
