@@ -59,41 +59,7 @@ define([ "jquery", "register/port", "registerPort" ], function($, port, register
                 } catch (err) {
                     return void alert("服务器异常，稍后再试");
                 }
-<<<<<<< HEAD
-                if ("true" == String(res.success)) alert("注册成功"), location.href = registerPort.jump_port; else if (res.no || res.no >= 1 && res.no <= 4) //填写错误
-=======
-                if ("true" == String(res.success)) location.href = registerPort.jump_port; else if (res.no || res.no >= 1 && res.no <= 5) //填写错误
->>>>>>> 3fc68d3d7c47b927d64b49e2d4dee2885725a509
-                switch (res.no) {
-                  //邮箱错误
-                    case 1:
-                    showInputError($divUserEmail, res.errMsg.inputMsg);
-                    break;
-
-                  //密码错误
-                    case 2:
-                    showInputError($divUserPWd, res.errMsg.inputMsg);
-                    break;
-
-                  //电话号码码错误
-                    case 3:
-                    !function() {
-                        "mobile" == loginWay && showInputError($divUserTel, res.errMsg.inputMsg);
-                    }();
-                    break;
-
-                  //商家页面错误
-                    case 4:
-                    showInputError($divAdd, res.errMsg.inputMsg);
-                    break;
-
-                  //验证码错误
-                    case 5:
-                    !function() {
-                        "normal" == loginWay ? showInputError($divAuth1, res.errMsg.inputMsg) : "mobile" == loginWay && showInputError($divAuth2, res.errMsg.inputMsg);
-                    }();
-                } else //其它错误
-                alert(res.errMsg && res.errMsg.otherMsg ? res.errMsg.otherMsg : "注册失败!!!");
+                res.success ? (alert("注册成功"), location.href = registerPort.jump_port) : alert(res.inutMsg ? res.inputMsg : res.otherMsg ? res.otherMsg : "注册失败!!");
             }
         });
     }

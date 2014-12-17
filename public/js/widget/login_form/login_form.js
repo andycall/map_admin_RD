@@ -7,8 +7,8 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
             } catch (err) {
                 return void alert("服务器数据异常，稍后再试");
             }
-            if (res.success) if (res.nextSrc) $(".captcha-img").attr("src", res.nextSrc + "?smelraint=Math.random()*10000"); else {
-                alert("短信已经发送，请注意接收验证码"), //计时禁止连续发送30秒
+            if (res.success) if (res.nextSrc) $(".captcha-img").attr("src", res.nextSrc + "?t=" + 1e3 * Math.random()); else {
+                d, alert("短信已经发送，请注意接收验证码"), //计时禁止连续发送30秒
                 $smsBtn.attr("disabled", "disabled");
                 var count = 30, orginText = $smsBtn.text(), authTimer = setInterval(function() {
                     $smsBtn.text(count-- + "秒后可再发送"), 1 > count && ($smsBtn.text(orginText).removeAttr("disabled"), 
@@ -53,39 +53,9 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
                 } catch (err) {
                     return void alert("服务器异常，稍后再试");
                 }
-                if (res.success) alert("登陆成功!"), location.href = loginPort.jump_port; else if (res.no || res.no >= 1 && res.no <= 4) //填写错误
-                switch (res.no) {
-                  //用户名错误
-                    case 1:
-                    showInputError($divUserEmail, res.errMsg.inputMsg);
-                    break;
-
-                  //密码错误
-                    case 2:
-                    showInputError($divUserPWd, res.errMsg.inputMsg);
-                    break;
-
-                  //电话号码码错误
-                    case 3:
-                    !function() {
-                        "mobile" == loginWay && showInputError($divUserTel, res.errMsg.inputMsg);
-                    }();
-                    break;
-
-                  //验证码错误
-                    case 4:
-                    !function() {
-                        "normal" == loginWay ? showInputError($divAuth1, res.errMsg.inputMsg) : "mobile" == loginWay && showInputError($divAuth2, res.errMsg.inputMsg);
-                    }();
-                } else //其它错误
-                alert(res.errMsg && res.errMsg.otherMsg ? res.errMsg.otherMsg : "登录失败！！！请重试");
+                res.success ? (alert("登陆成功!"), location.href = loginPort.jump_port) : alert(res.inutMsg ? res.inputMsg : res.otherMsg ? res.otherMsg : "登陆失败!!!");
             }
         });
-    }
-    //显示表单的错误
-    function showInputError($id, msg) {
-        var $tip = $id.find(".u-error-tip");
-        msg && $tip.text(msg), $tip.show();
     }
     //登陆模块
     /*

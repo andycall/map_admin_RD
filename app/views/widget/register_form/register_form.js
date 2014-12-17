@@ -182,7 +182,6 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
                 }else{
                     alert("注册失败!!");
                 }
-
             }
 
         });

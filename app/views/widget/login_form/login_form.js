@@ -211,7 +211,6 @@ define(['jquery','login/port', 'loginPort'], function($, port, loginPort){
             }
         });
     }
-    
     //显示表单的错误
     function showInputError($id,msg){
         var $tip = $id.find(".u-error-tip");
