@@ -15,4 +15,5 @@ class MenuGroup extends Eloquent{
 	public function menus(){
         return $this->hasMany('Menu', 'group_id', 'id');
     }
+    
 }
