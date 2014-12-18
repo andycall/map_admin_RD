@@ -6,7 +6,7 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
      *@include ajax
      *@inclde 点击验证码切换/发送验证码
     */
-
+    
     var $smsBtn = $(".sms-btn");
 
     //短信验证码
@@ -69,7 +69,6 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
         $divUserPwd     = $("#user-pwd"),
         $divUserRePwd   = $("#user-re-pwd"),
         $divUserEmail   = $("#register-user-email"),
-        $divAdd         = $("#user-add"),
         $divAuth        = $("#register-user-auth");
   
     //验证所填数据4
@@ -79,11 +78,10 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
 
         //normal err tip
         var $errPwd     = $divUserPwd.find(".u-error-tip"),
-            $errMobile  = $divUserMobile.find(".u-error-tip"),
-            $errRePwd   = $divUserRePwd.find(".u-error-tip"),
-            $errAuth    = $divAuth.find(".u-error-tip"),
-            $errEmail   = $divUserEmail.find(".u-error-tip");
-            $errAdd     = $divAdd.find(".u-error-tip");
+              $errMobile = $divUserMobile.find(".u-error-tip"),
+              $errRePwd  = $divUserRePwd.find(".u-error-tip"),
+              $errAuth     = $divAuth.find(".u-error-tip"),
+              $errEmail    = $divUserEmail.find(".u-error-tip");
 
         //验证正则
         var regEmail   = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/, //邮箱验证
@@ -91,7 +89,7 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
             regTel     = /^[\d]{11}$/, //电话号码目前仅支持11位
             regPwd     = /^[\w]{6,20}$/;    //密码 大于六位 0-9a-zA-Z_
 
-        //console.log(data.user_phone);
+         console.log(data.user_phone);
         //验证电话号码
         if( !regTel.test(data.user_phone) ){
             $errMobile.show();
@@ -114,7 +112,7 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
             return false;
         }else{
             $errPwd.hide();
-        }
+        } 
 
         //验证验证密码是否相同
         if( data.user_psw != $divUserRePwd.find("input").val() ){
@@ -122,14 +120,6 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
             return false;
         }else{
             $errRePwd.hide();
-        }
-
-        //验证是否填写商家地址
-        if( !data.user_add ){
-            $errAdd.show();
-            return false;
-        }else{
-            $errAdd.hide();
         }
 
         //验证码
@@ -175,13 +165,12 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
                 if( res.success ){
                     alert("注册成功");
 	                location.href = registerPort['jump_port'];
-                }else if( res.inutMsg){
-                    alert(res.inputMsg);
-                }else if(res.otherMsg){
-                    alert(res.otherMsg);
+                }else if( res.errMsg.inutMsg || res.errMsg.otherMsg){
+                    alert(res.errMsg.inputMsg || res.errMsg.otherMsg);
                 }else{
-                    alert("注册失败!!");
+                    alert("注册失败!!!");
                 }
+
             }
 
         });
@@ -195,7 +184,6 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
             'user_phone' : $divUserMobile.find("input").val(),   //电话号码
             'user_psw'   : $divUserPwd.find("input").val(),    //密码
             'user_email' : $divUserEmail.find("input").val(),  //邮箱
-            'user_add'   : $divAdd.find("input").val(),  //商家地址
             'user_auth'  : $divAuth.find("input").val()        //验证码
         };
 
@@ -204,8 +192,6 @@ define(["jquery", "register/port", 'registerPort'], function($, port, registerPo
         }
 
         ajaxForm(data);
-
-
         
         //保险起见
         return false;
