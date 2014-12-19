@@ -7,14 +7,14 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
             } catch (err) {
                 return void alert("服务器数据异常，稍后再试");
             }
-            if (res.success) if (res.nextSrc) "image" == data.auth_way && $(".captcha-img").attr("src", res.nextSrc); else {
-                alert("短信已经发送，请注意接收验证码"), //计时禁止连续发送30秒
+            if (res.success) if (res.nextSrc) $(".captcha-img").attr("src", res.nextSrc + "?t=" + 1e3 * Math.random()); else {
+                d, alert("短信已经发送，请注意接收验证码"), //计时禁止连续发送30秒
                 $smsBtn.attr("disabled", "disabled");
                 var count = 30, orginText = $smsBtn.text(), authTimer = setInterval(function() {
                     $smsBtn.text(count-- + "秒后可再发送"), 1 > count && ($smsBtn.text(orginText).removeAttr("disabled"), 
                     clearInterval(authTimer));
                 }, 1e3);
-            } else !res.success && res.errMsg && alert(res.errMsg);
+            } else alert(!res.success && res.errMsg ? res.errMsg : "发送错误");
         });
     }
     //表单验证     
@@ -53,39 +53,9 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
                 } catch (err) {
                     return void alert("服务器异常，稍后再试");
                 }
-                if (res.success) location.href = loginPort.jump_port; else if (res.no || res.no >= 1 && res.no <= 4) //填写错误
-                switch (res.no) {
-                  //用户名错误
-                    case 1:
-                    showInputError($divUserEmail, res.errMsg.inputMsg);
-                    break;
-
-                  //密码错误
-                    case 2:
-                    showInputError($divUserPWd, res.errMsg.inputMsg);
-                    break;
-
-                  //电话号码码错误
-                    case 3:
-                    !function() {
-                        "mobile" == loginWay && showInputError($divUserTel, res.errMsg.inputMsg);
-                    }();
-                    break;
-
-                  //验证码错误
-                    case 4:
-                    !function() {
-                        "normal" == loginWay ? showInputError($divAuth1, res.errMsg.inputMsg) : "mobile" == loginWay && showInputError($divAuth2, res.errMsg.inputMsg);
-                    }();
-                } else res.errMsg && res.errMsg.otherMsg && //其它错误
-                alert(res.errMsg.otherMsg);
+                res.success ? (alert("登陆成功!"), location.href = loginPort.jump_port) : alert(res.errMsg.inutMsg || res.errMsg.otherMsg ? res.errMsg.inputMsg || res.errMsg.otherMsg : "登陆失败!!!");
             }
         });
-    }
-    //显示表单的错误
-    function showInputError($id, msg) {
-        var $tip = $id.find(".u-error-tip");
-        msg && $tip.text(msg), $tip.show();
     }
     //登陆模块
     /*
@@ -95,7 +65,7 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
      * @include "验证码点击切换/发送验证码"
     */
     var $smsBtn = $(".sms-btn");
-    console.log(loginPort), //图片验证码
+    //图片验证码
     $(".captcha-img").on("click", function() {
         getAuth({
             auth_way: "image",
@@ -103,7 +73,7 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
         });
     }), //短信验证码
     $smsBtn.on("click", function() {
-        getAuth({
+        return /^[\d]{11}$/.test($("#user-mobile").val()) ? void getAuth({
             auth_port: port.sms_auth,
             //短信验证port
             auth_way: "sms",
@@ -111,7 +81,7 @@ define([ "jquery", "login/port", "loginPort" ], function($, port, loginPort) {
             timestemp: new Date().getTime(),
             //时间戳
             telNumber: $("#user-mobile").val()
-        });
+        }) : void $("#login-user-mobile").find(".u-error-tip").show();
     }), //输入框绑定事件,每次获得焦点时隐藏提示
     $("#login-form input").on("focus", function() {
         $(".u-error-tip").hide();
