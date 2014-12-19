@@ -47,7 +47,7 @@ class ShopAdminController extends BaseController {
 			return $error;
 		}
 
-		$group = new Menugroup($record);
+		$group = new MenuGroup($record);
 		if( $group->save() ){
 			return Redirect::to('category')->with('catMsg', '添加分类成功!');
 			
