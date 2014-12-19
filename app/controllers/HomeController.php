@@ -34,11 +34,13 @@ class HomeController extends BaseController {
 	}
 
 	/**
-	 * 获取代送订单信息
+	 * 获取待送订单信息
 	 */
 	public function getGoods(){
-		$order = Order::where('state_of_shop', 2)->first();	// 前段要求只要一个
-		
+		$order = Order::where('shop_id', Auth::user()->shop_id)->where('state_of_shop', 2)->first();	// 前端要求只要一个
+		if( $order == NULL ){
+			return Response::json(array());
+		}
 		$data = array(
 			'success' => true,
 			'deal_id' => $order->id,
@@ -60,7 +62,6 @@ class HomeController extends BaseController {
 				'good_total' => $good->price * $amount
 			));
 		}
-
 		//var_dump($data);
 		return Response::json($data);
 	}
